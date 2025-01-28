@@ -1665,7 +1665,7 @@ if 'df_pag_final_guias' in st.session_state:
 
             # Geração de html com todos os guias da lista independente de apertar botão
 
-            else:
+            elif not guia:
 
                 nome_html = f'Mapas Guias Geral.html'
 
@@ -1677,21 +1677,21 @@ if 'df_pag_final_guias' in st.session_state:
 
                 botao_download_html_geral(nome_html, row2_1)
 
-        with row2_1[2]:
+                with row2_1[2]:
 
-            enviar_informes_financeiro = st.button(f'Enviar Informes p/ Financeiro')
+                    enviar_informes_financeiro = st.button(f'Enviar Informes Gerais p/ Financeiro')
 
-            if enviar_informes_financeiro:
+                    if enviar_informes_financeiro:
 
-                lista_htmls, lista_htmls_email = gerar_payload_envio_geral_para_financeiro(lista_guias)
+                        lista_htmls, lista_htmls_email = gerar_payload_envio_geral_para_financeiro(lista_guias)
 
-                if len(lista_htmls)>0:
+                        if len(lista_htmls)>0:
 
-                    enviar_informes_gerais(lista_htmls)
+                            enviar_informes_gerais(lista_htmls)
 
-                if len(lista_htmls_email)>0:
+                        if len(lista_htmls_email)>0:
 
-                    enviar_emails_gerais(lista_htmls_email)
+                            enviar_emails_gerais(lista_htmls_email)
 
 # Se tiver guia selecionado, dá a opção de enviar o informe individual
 
