@@ -1,0 +1,10 @@
+streamlit==1.37.0
+pandas==2.0.3
+mysql-connector==2.2.9
+mysql-connector-python==9.0.0
+gspread==6.1.2
+google-auth==2.34.0
+google-auth-oauthlib==1.2.0
+numpy==1.26.4
+babel==2.11.0
+requests-oauthlib==2.0.0
