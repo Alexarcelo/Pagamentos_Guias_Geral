@@ -1067,6 +1067,8 @@ def gerar_payload_envio_geral_para_financeiro(lista_guias):
 
 st.set_page_config(layout='wide')
 
+# Inicializando view_phoenix no session_state
+
 if not 'view_phoenix' in st.session_state:
 
     st.session_state.view_phoenix = ''
@@ -1487,7 +1489,7 @@ if gerar_mapa and data_inicial and data_final:
             
             # Ajustando pagamentos de DIDI e RODRIGO SALES
 
-            df_escalas_group.loc[df_escalas_group['Guia'].isin(['DIDI', 'RODRIGO SALES']), 'Valor Total'] = df_escalas_group['Valor Serviço'] * 0.5
+            df_escalas_group.loc[df_escalas_group['Guia'].isin(['DIDI', 'RODRIGO SALES']), 'Valor Final'] = df_escalas_group['Valor Serviço'] * 0.5
 
             # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
             
@@ -1500,7 +1502,7 @@ if gerar_mapa and data_inicial and data_final:
             # Gerando dataframe final
 
             st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Idioma', 'Adicional Passeio Motoguia', 
-                                                                    'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Total']]
+                                                                    'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']]
         
     # Base JPA
 
@@ -1723,12 +1725,14 @@ if 'html_content' in st.session_state and guia:
 
         enviar_informes_individual_financeiro = st.button(f'Enviar Informes | {guia} p/ Financeiro')
 
-        contato_financeiro = st.session_state.df_config[st.session_state.df_config['Configuração']=='Contato Financeiro']['Parâmetro'].iloc[0]
+        if enviar_informes_individual_financeiro:
 
-        if not '@' in contato_financeiro:
+            contato_financeiro = st.session_state.df_config[st.session_state.df_config['Configuração']=='Contato Financeiro']['Parâmetro'].iloc[0]
 
-            enviar_informes_individuais(contato_financeiro)
+            if not '@' in contato_financeiro:
 
-        else:
+                enviar_informes_individuais(contato_financeiro)
 
-            enviar_email_individual(contato_financeiro)
+            else:
+
+                enviar_email_individual(contato_financeiro)
