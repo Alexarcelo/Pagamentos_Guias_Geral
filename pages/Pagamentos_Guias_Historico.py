@@ -506,7 +506,7 @@ if 'df_pag_final_historico' in st.session_state:
 
     # Quando não tem guia selecionado
 
-    else:
+    elif data_pagamento:
 
         row2_1 = st.columns(4)
 
@@ -568,7 +568,7 @@ if 'df_pag_final_historico' in st.session_state:
 
 # Se tiver guia selecionado, dá a opção de enviar o informe individual
 
-if 'html_content' in st.session_state and 'df_pag_final_historico' in st.session_state and guia:
+if 'html_content' in st.session_state and 'df_pag_final_historico' in st.session_state and guia and data_pagamento:
 
     with row2_1[2]:
 
