@@ -561,24 +561,26 @@ def verificar_juncoes_in_out(df):
 
     df_in_out = df[df['Tipo de Servico'].isin(['IN', 'OUT'])].sort_values(by = ['Guia', 'Motorista', 'Veiculo', 'Data | Horario Apresentacao']).reset_index()
 
-    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Guia', 'Motorista', 'Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: ', '.join(list(x)), 'Escala': 'count'})\
+    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Guia', 'Motorista', 'Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Escala': 'count'})\
         .reset_index()
+    
+    df_in_out_group = df_in_out_group[df_in_out_group['Tipo de Servico'].apply(filtro_tipo_servico)]
 
-    df_in_out_group = df_in_out_group[df_in_out_group['Tipo de Servico'].str.contains('OUT, IN')]
+    for _, row in df_in_out_group.iterrows():
 
-    lista_indices_2_trf_conjugados = df_in_out_group[(df_in_out_group['Escala']==2) | (df_in_out_group['Escala']==4)]['index'].explode().tolist()
+        lista_tipos_servicos = row['Tipo de Servico']
 
-    df_3_trf = df_in_out_group[df_in_out_group['Escala']==3]
+        for index in range(1, len(lista_tipos_servicos)):
 
-    if len(df_3_trf)>0:
+            tipo_primeiro_trf = row['Tipo de Servico'][index-1]
 
-        df_3_trf['index_usado'] = df_3_trf.apply(lambda row: row['index'][:2] if row['Tipo de Servico'][:3]=='OUT' else row['index'][1:], axis=1)
+            tipo_segundo_trf = row['Tipo de Servico'][index]
 
-        lista_indices_3_trf_conjugados = df_3_trf['index_usado'].explode().tolist()
+            if tipo_primeiro_trf=='OUT' and tipo_segundo_trf=='IN':
 
-        lista_indices_2_trf_conjugados.extend(lista_indices_3_trf_conjugados)
+                lista_index_principal = row['index'][index-1:index+1]
 
-    df.loc[lista_indices_2_trf_conjugados, 'Serviço Conjugado'] = 'X'
+                df.loc[lista_index_principal, 'Serviço Conjugado'] = 'X'
 
     return df
 
