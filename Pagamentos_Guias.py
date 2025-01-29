@@ -211,7 +211,7 @@ def verificar_tarifarios(df_escalas_group, id_gsheet, aba_gsheet, coluna_valores
 
         st.error(f"Os serviços {', '.join(lista_passeios_tarifa_nula)} estão na planilha de tarifários, mas não possuem valor correspondente. Por favor, tarife os serviços e tente novamente")
 
-        df_escalas_group['Valor Serviço'] = df_escalas_group['Valor Serviço'].fillna('Sem Tarifa!')
+        df_escalas_group[coluna_valores_none] = df_escalas_group[coluna_valores_none].fillna('Sem Tarifa!')
 
         if 'Evento' in df_escalas_group.columns:
 
