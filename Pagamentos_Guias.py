@@ -638,7 +638,7 @@ def ajustar_valor_transferistas(df_pag_guias_in_out_final):
 
         valor_ajuste = row['Valor Parâmetro']
 
-        mask_transferistas = (df_pag_guias_in_out_final['Guia']==transferista) & (df_pag_guias_in_out_final['Valor Final']<valor_ajuste)
+        mask_transferistas = (df_pag_guias_in_out_final['Guia']==transferista) & (df_pag_guias_in_out_final['Valor Final']<valor_ajuste) & (df_pag_guias_in_out_final['Tipo de Servico'].isin(['IN', 'OUT']))
 
         df_pag_guias_in_out_final.loc[mask_transferistas, 'Valor Final'] = valor_ajuste
 
