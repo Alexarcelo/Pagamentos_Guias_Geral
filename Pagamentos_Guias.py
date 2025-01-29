@@ -555,6 +555,15 @@ def colunas_voos_mais_tarde_cedo(df):
 
     return df
 
+def filtro_tipo_servico(lista):
+    encontrou_out = False
+    for item in lista:
+        if item == 'OUT':
+            encontrou_out = True
+        if item == 'IN' and encontrou_out:
+            return True
+    return False
+
 def verificar_juncoes_in_out(df):
 
     df['Serviço Conjugado'] = ''
