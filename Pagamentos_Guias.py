@@ -1111,7 +1111,7 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentolucksalvador"
 
-        st.session_state.colunas_valores_df_pag = ['Valor Hora Extra', 'Valor Uber', 'Valor Serviço', 'Valor Final']
+        st.session_state.colunas_valores_df_pag = ['Valor Hora Extra', 'Valor Uber', 'Valor Final']
 
         st.session_state.remetente_email = 'admluckssa@luckreceptivo.com.br'
         
@@ -1179,7 +1179,7 @@ with row1[0]:
 
     with row1_2[0]:
 
-        gerar_mapa = container_datas.button('Gerar Mapa de Pagamentos')
+        gerar_mapa = st.button('Gerar Mapa de Pagamentos')
 
 # Botão de atualizar dados do phoenix e data de pagamento
 
@@ -1633,7 +1633,7 @@ if 'df_pag_final_guias' in st.session_state:
 
     # Quando não tem guia selecionado
 
-    else:
+    elif data_pagamento:
 
         row2_1 = st.columns(4)
 
@@ -1695,7 +1695,7 @@ if 'df_pag_final_guias' in st.session_state:
 
 # Se tiver guia selecionado, dá a opção de enviar o informe individual
 
-if 'html_content' in st.session_state and guia:
+if 'html_content' in st.session_state and guia and data_pagamento:
 
     with row2_1[2]:
 
