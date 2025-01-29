@@ -985,7 +985,7 @@ def inserir_dataframe_gsheet(df_itens_faltantes, id_gsheet, nome_aba):
 
 def gerar_df_insercao_mapa_pagamento(data_inicial, data_final):
 
-    puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos', 'df_historico_pagamentos')
+    puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos Guias', 'df_historico_pagamentos')
 
     st.session_state.df_historico_pagamentos['Data da Escala'] = pd.to_datetime(st.session_state.df_historico_pagamentos['Data da Escala'], format='%d/%m/%Y').dt.date
 
@@ -1616,7 +1616,7 @@ if 'df_pag_final_guias' in st.session_state:
 
             df_insercao = gerar_df_insercao_mapa_pagamento(data_inicial, data_final)
 
-            inserir_dataframe_gsheet(df_insercao, st.session_state.id_gsheet, 'Histórico de Pagamentos')
+            inserir_dataframe_gsheet(df_insercao, st.session_state.id_gsheet, 'Histórico de Pagamentos Guias')
 
 # Gerar Mapas
 
