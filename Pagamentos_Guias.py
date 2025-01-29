@@ -216,11 +216,11 @@ def verificar_tarifarios(df_escalas_group, id_gsheet, aba_gsheet, coluna_valores
         if 'Evento' in df_escalas_group.columns:
 
             st.dataframe(df_escalas_group[df_escalas_group[coluna_valores_none]=='Sem Tarifa!'][['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Idioma', 'Evento', 
-                                                                                                 'Valor Serviço']], hide_index=True)
+                                                                                                 coluna_valores_none]], hide_index=True)
             
         else:
 
-            st.dataframe(df_escalas_group[df_escalas_group[coluna_valores_none]=='Sem Tarifa!'][['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Idioma', 'Valor Serviço']], 
+            st.dataframe(df_escalas_group[df_escalas_group[coluna_valores_none]=='Sem Tarifa!'][['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Idioma', coluna_valores_none]], 
                          hide_index=True)
 
         st.stop()
