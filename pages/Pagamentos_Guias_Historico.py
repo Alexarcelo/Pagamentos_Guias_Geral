@@ -1,11 +1,7 @@
 import streamlit as st
 import pandas as pd
-import mysql.connector
-import decimal
 import gspread
 from google.oauth2 import service_account
-from datetime import time, timedelta
-import numpy as np
 from babel.numbers import format_currency
 import requests
 import smtplib
