@@ -1273,6 +1273,8 @@ if gerar_mapa and data_inicial and data_final:
 
             df_escalas_group.loc[df_escalas_group['Motorista']==df_escalas_group['Guia'], ['Motoguia', 'Valor Final']] = \
                 ['X', st.session_state.df_config[st.session_state.df_config['Configuração']=='Valor Motoguia']['Valor Parâmetro'].iloc[0]]
+
+            df_escalas_group['Motoguia'] = df_escalas_group['Motoguia'].fillna('')
             
             # Transformando vários trf feitos em um dia por um motoguia em valor de diária
             
