@@ -467,7 +467,7 @@ if gerar_mapa and data_inicial and data_final:
 
     with st.spinner('Gerando mapas de pagamentos...'):
 
-        puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos', 'df_historico_pagamentos')
+        puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos Guias', 'df_historico_pagamentos')
 
         st.session_state.df_historico_pagamentos['Data da Escala'] = pd.to_datetime(st.session_state.df_historico_pagamentos['Data da Escala'], format='%d/%m/%Y').dt.date
 
