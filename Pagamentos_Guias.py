@@ -1604,6 +1604,10 @@ if gerar_mapa and data_inicial and data_final:
             st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Est. Origem', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 
                                                                     'Serviço Conjugado', 'Valor Final']]
 
+    else:
+
+        st.error('A sua base ainda não possui Mapa de Pagamento p/ Guias')
+
 # Opção de salvar o mapa gerado no Gsheet
 
 if 'df_pag_final_guias' in st.session_state:
