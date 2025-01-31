@@ -8,3 +8,4 @@ google-auth-oauthlib==1.2.0
 numpy==1.26.4
 babel==2.11.0
 requests-oauthlib==2.0.0
+streamlit-aggrid==1.0.5
