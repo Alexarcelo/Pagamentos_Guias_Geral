@@ -123,10 +123,10 @@ def puxar_apoios_box():
 
     tratar_coluna_apoio_box()
 
-    st.session_state.df_apoios_box[['Modo', 'Tipo de Servico', 'Veículo', 'Motorista', 'Motoguia', 'Idioma', 'Apenas Recepcao', 'Barco Carneiros']] = \
-        ['REGULAR', 'APOIO', '', '', '', '', '', 0]
+    st.session_state.df_apoios_box[['Modo', 'Veiculo', 'Motorista', 'Motoguia', 'Idioma', 'Apenas Recepcao', 'Barco Carneiros']] = \
+        ['REGULAR', '', '', '', '', '', 0]
     
-    st.session_state.df_apoios_box = st.session_state.df_apoios_box[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Veículo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Apenas Recepcao', 
+    st.session_state.df_apoios_box = st.session_state.df_apoios_box[['Data da Escala', 'Modo', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Apenas Recepcao', 
                                                                      'Barco Carneiros', 'Valor Final']]
     
     st.session_state.df_apoios_box = st.session_state.df_apoios_box[(st.session_state.df_apoios_box['Data da Escala']>=st.session_state.data_inicial) & 
@@ -146,10 +146,10 @@ def puxar_servicos_navio():
 
     tratar_colunas_numero_df(st.session_state.df_servicos_navio, st.session_state.lista_colunas_nao_numericas)
 
-    st.session_state.df_servicos_navio[['Modo', 'Tipo de Servico', 'Servico', 'Veículo', 'Motorista', 'Motoguia', 'Idioma', 'Apenas Recepcao', 'Barco Carneiros']] = \
-        ['REGULAR', 'TOUR', 'Serviço de Guia - Navio', '', '', '', '', '', 0]
+    st.session_state.df_servicos_navio[['Modo', 'Servico', 'Veiculo', 'Motorista', 'Motoguia', 'Idioma', 'Apenas Recepcao', 'Barco Carneiros']] = \
+        ['REGULAR', 'Serviço de Guia - Navio', '', '', '', '', '', 0]
 
-    st.session_state.df_servicos_navio = st.session_state.df_servicos_navio[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Veículo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 
+    st.session_state.df_servicos_navio = st.session_state.df_servicos_navio[['Data da Escala', 'Modo', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 
                                                                              'Apenas Recepcao', 'Barco Carneiros', 'Valor Final']]
 
 def puxar_ubers():
