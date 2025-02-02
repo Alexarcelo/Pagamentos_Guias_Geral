@@ -1094,11 +1094,33 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.base_luck = 'test_phoenix_maceio'
 
+        st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro', 'Escala']
+
+        st.session_state.id_gsheet = '1EpOI0E936CTuPnklf7fOXKUTPoSmTdieWjy07WS6N7w'
+
+        st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentoluckmaceio"
+
+        st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
+
+        st.session_state.dict_tp_veic = {'Micrão': 'Micro', 'Ônibus': 'Bus', 'Ônibus DD': 'Bus DD', 'Ônibus LD': 'Bus LD'}
+
+        st.session_state.lista_out_in_frances_sao_miguel = [['OUT- FRANCÊS', 'OUT - BARRA DE SÃO MIGUEL'], ['IN - FRANCÊS', 'IN - BARRA DE SÃO MIGUEL']]
+
+        st.session_state.dict_conjugados = {'OUT - BARRA DE SANTO ANTÔNIO': 'Barra de Santo Antonio', 'IN - BARRA DE SANTO ANTÔNIO ': 'Barra de Santo Antonio', 
+                                            'OUT - BARRA DE SÃO MIGUEL': 'Barra de Sao Miguel', 'IN - BARRA DE SÃO MIGUEL': 'Barra de Sao Miguel', 
+                                            'OUT - GRANDE MACEIÓ': 'Grande Maceio', 'IN - GRANDE MACEIÓ': 'Grande Maceio', 
+                                            'OUT - MARAGOGI / JAPARATINGA': 'Maragogi', 'IN - MARAGOGI / JAPARATINGA': 'Maragogi', 
+                                            'OUT - ORLA DE MACEIÓ (OU PRÓXIMOS) ': 'Orla Maceio', 'IN - ORLA DE MACEIÓ (OU PRÓXIMOS)': 'Orla Maceio', 
+                                            'OUT - PARIPUEIRA': 'Paripueira', 'IN - PARIPUEIRA ': 'Paripueira', 
+                                            'OUT - SÃO MIGUEL DOS MILAGRES ': 'Milagres', 'IN -  SÃO MIGUEL DOS MILAGRES': 'Milagres', 
+                                            'OUT JEQUIÁ DA PRAIA ': 'Jequia', 'IN JEQUIÁ DA PRAIA ': 'Jequia', 
+                                            'OUT- FRANCÊS': 'Frances', 'IN - FRANCÊS': 'Frances'}
+        
     elif base_fonte=='rec':
 
         st.session_state.base_luck = 'test_phoenix_recife'
 
-        st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro', 'Data da Escala', 'Guia']
+        st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro', 'Data da Escala', 'Guia', 'Escala']
 
         st.session_state.lista_colunas_data = ['Data da Escala']
 
@@ -1106,9 +1128,61 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.id_gsheet = '1RwFPP9nQttGztxicHeJGTG6UqoL7fPKCWSdhhEdRVhE'
 
+        st.session_state.id_gsheet_hoteis_piedade = '1az0u1yGWqIXE9KcUro6VznsVj7d5fozhH3dDsT1eI6A'
+
         st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentoluckrecife"
 
         st.session_state.colunas_valores_df_pag = ['Valor Final', 'Barco Carneiros']
+
+        st.session_state.colunas_valores_df_pag_forn = ['Valor Pedágio', 'Valor Carroça', 'Valor Final']
+
+        st.session_state.colunas_valores_df_pag_forn_add = ['Valor ADT', 'Valor CHD', 'Valor Final']
+
+        st.session_state.colunas_numeros_inteiros_df_pag_forn_add = ['Total ADT', 'Total CHD', 'Total INF']
+
+        st.session_state.dict_tp_veic = {'Executivo': 'Utilitario', 'Monovolume': 'Utilitario', 'SUV': 'Utilitario', 'Sedan': 'Utilitario', 'Ônibus': 'Bus', 'Micrão': 'Micro'}
+
+        st.session_state.dict_conjugados = {'OUT (BOA VIAGEM | PIEDADE)': 'Boa Viagem', 'IN (BOA VIAGEM | PIEDADE)': 'Boa Viagem', 
+                                            'OUT (PIEDADE)': 'Piedade', 'IN (PIEDADE)': 'Piedade', 
+                                            'OUT (CABO DE STO AGOSTINHO)': 'Cabo', 'IN (CABO DE STO AGOSTINHO)': 'Cabo', 
+                                            'OUT (CARNEIROS I TAMANDARÉ)': 'Carneiros', 'IN (CARNEIROS I TAMANDARÉ)': 'Carneiros', 
+                                            'OUT (MARAGOGI | JAPARATINGA)': 'Maragogi', 'IN (MARAGOGI | JAPARATINGA)': 'Maragogi', 
+                                            'OUT (OLINDA)': 'Olinda', 'IN (OLINDA)': 'Olinda', 
+                                            'OUT (PORTO DE GALINHAS)': 'Porto', 'IN (PORTO DE GALINHAS)': 'Porto', 
+                                            'OUT (SERRAMBI)': 'Serrambi', 'IN (SERRAMBI)': 'Serrambi', 
+                                            'OUT RECIFE (CENTRO)': 'Recife', 'IN RECIFE (CENTRO)': 'Recife'}
+        
+        st.session_state.dict_trf_hotel_conjugado = {'TRF BOA VIAGEM OU PIEDADE / CABO DE STO AGOSTINHO OU PAIVA': 1, 'TRF CABO DE STO AGOSTINHO/BOA VIAGEM OU PIEDADE': 2,  
+                                                     'TRF PIEDADE / CABO DE STO AGOSTINHO OU PAIVA': 3, 'TRF CABO DE STO AGOSTINHO/PIEDADE': 4,  
+                                                     'TRF BOA VIAGEM OU PIEDADE / CARNEIROS OU TAMANDARÉ': 5, 'TRF CARNEIROS OU TAMANDARÉ / BOA VIAGEM OU PIEDADE': 6, 
+                                                     'TRF PIEDADE / CARNEIROS OU TAMANDARÉ': 7, 'TRF CARNEIROS OU TAMANDARÉ / PIEDADE': 8, 
+                                                     'TRF BOA VIAGEM OU PIEDADE / MARAGOGI OU JAPARATINGA': 9, 'TRF MARAGOGI OU JAPARATINGA / BOA VIAGEM OU PIEDADE': 10, 
+                                                     'TRF PIEDADE / MARAGOGI OU JAPARATINGA': 11, 'TRF MARAGOGI OU JAPARATINGA / PIEDADE': 12, 
+                                                     'TRF BOA VIAGEM OU PIEDADE / PORTO DE GALINHAS': 13, 'TRF PORTO DE GALINHAS / BOA VIAGEM OU PIEDADE': 14, 
+                                                     'TRF PIEDADE / PORTO DE GALINHAS': 15, 'TRF PORTO DE GALINHAS / PIEDADE': 16, 
+                                                     'TRF CABO DE STO AGOSTINHO OU PAIVA / PORTO DE GALINHAS': 17, 'TRF PORTO DE GALINHAS / CABO DE STO AGOSTINHO OU PAIVA': 18, 
+                                                     'TRF PORTO DE GALINHAS / MARAGOGI OU JAPARATINGA': 19, 'TRF MARAGOGI OU JAPARATINGA / PORTO DE GALINHAS': 20}
+        
+        st.session_state.dict_trf_in_hotel_conjugado = {'IN (CABO DE STO AGOSTINHO)': 1, 'TRF CABO DE STO AGOSTINHO/BOA VIAGEM OU PIEDADE': 2, 'TRF CABO DE STO AGOSTINHO/PIEDADE': 3, 
+                                                        'TRF CABO STO AGOSTINHO OU PAIVA / RECIFE (CENTRO)': 4,  
+                                                        'IN (CARNEIROS I TAMANDARÉ)': 5, 'TRF CARNEIROS OU TAMANDARÉ / BOA VIAGEM OU PIEDADE': 6, 'TRF CARNEIROS OU TAMANDARÉ / PIEDADE': 7, 
+                                                        'TRF CARNEIROS OU TAMANDARÉ / RECIFE (CENTRO)': 8, 
+                                                        'IN (MARAGOGI | JAPARATINGA)': 9, 'TRF MARAGOGI OU JAPARATINGA / BOA VIAGEM OU PIEDADE': 10, 'TRF MARAGOGI OU JAPARATINGA / PIEDADE': 11, 
+                                                        'TRF MARAGOGI OU JAPARATINGA / RECIFE ': 12, 
+                                                        'IN (OLINDA)': 13, 'TRF OLINDA/RECIFE': 14, 
+                                                        'IN (PORTO DE GALINHAS)': 15, 'TRF PORTO DE GALINHAS / BOA VIAGEM OU PIEDADE': 16, 'TRF PORTO DE GALINHAS / PIEDADE': 17, 
+                                                        'TRF PORTO DE GALINHAS / RECIFE (CENTRO)': 18, 
+                                                        'IN (SERRAMBI)': 19, 'TRF SERRAMBI / BOA VIAGEM OU PIEDADE': 20, 'TRF SERRAMBI / PIEDADE': 21, 'TRF SERRAMBI / RECIFE (CENTRO)': 22}
+        
+        st.session_state.dict_trf_hotel_out_conjugado = {'TRF BOA VIAGEM OU PIEDADE / CABO DE STO AGOSTINHO OU PAIVA': 1, 'TRF PIEDADE / CABO DE STO AGOSTINHO OU PAIVA': 2, 
+                                                         'TRF PORTO DE GALINHAS / CABO DE STO AGOSTINHO OU PAIVA': 3, 'OUT (CABO DE STO AGOSTINHO)': 4, 
+                                                         'TRF BOA VIAGEM OU PIEDADE / CARNEIROS OU TAMANDARÉ': 5, 'TRF PIEDADE / CARNEIROS OU TAMANDARÉ': 6, 'OUT (CARNEIROS I TAMANDARÉ)': 7,
+                                                         'TRF BOA VIAGEM OU PIEDADE / MARAGOGI OU JAPARATINGA': 8, 'TRF PIEDADE / MARAGOGI OU JAPARATINGA': 9, 
+                                                         'TRF PORTO DE GALINHAS / MARAGOGI OU JAPARATINGA': 10, 'OUT (MARAGOGI | JAPARATINGA)': 11,
+                                                         'TRF BOA VIAGEM OU PIEDADE / PORTO DE GALINHAS': 12, 'TRF PIEDADE / PORTO DE GALINHAS': 13, 
+                                                         'TRF CABO DE STO AGOSTINHO OU PAIVA / PORTO DE GALINHAS': 14, 'TRF MARAGOGI OU JAPARATINGA / PORTO DE GALINHAS': 15, 'OUT (PORTO DE GALINHAS)': 16}
+        
+        st.session_state.dict_nomes_fornecedores_ajuste = {'SV ': 'SALVATORE', 'HELENO VAN': 'HELENO VAN', 'SOARES': 'SOARES'}
 
     elif base_fonte=='ssa':
 
@@ -1124,17 +1198,52 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.colunas_valores_df_pag = ['Valor Hora Extra', 'Valor Uber', 'Valor Final']
 
+        st.session_state.colunas_valores_df_pag_forn = ['Carretinha', 'Valor Final']
+
         st.session_state.remetente_email = 'admluckssa@luckreceptivo.com.br'
         
         st.session_state.senha_email = 'acqjmbopixwtjbly'
+
+        st.session_state.dict_tp_veic = {'Carro': 'Utilitario', 'Carro Executivo': 'Utilitario', 'Executivo': 'Utilitario', 'Minivan': 'Van', 'Sedan': 'Utilitario', 'Ônibus': 'Bus'}
+
+        st.session_state.dict_conjugados = {' OUT -  LITORAL NORTE ': 'Litoral Norte', 'BAIXIO IN ': 'Baixio', 'BAIXIO OUT ': 'Baixio', 'IN  - LITORAL NORTE ': 'Litoral Norte'}
 
     elif base_fonte=='aju':
 
         st.session_state.base_luck = 'test_phoenix_aracaju'
 
+        st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro']
+
+        st.session_state.id_gsheet = '1R1Z67GNiGmYkEqyh-xP1GxyqD6k6-jxzzO81GXBIQJI'
+
+        st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentoluckaracaju"
+
+        st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
+
+        st.session_state.dict_tp_veic = {'BUS DD': 'Bus DD', 'Executivo': 'Utilitario', 'Micrão': 'Micro', 'MICRO-ÔNIBUS': 'Micro', 'MITSUBSHI': 'Utilitario', 'Ônibus': 'Bus', 'Ônibus DD': 'Bus DD'}
+
+        st.session_state.dict_conjugados = {'Transfer OUT Aeroporto - Makai Resort (Barra dos Coqueiros)': 'Makai', 'Transfer IN Aeroporto - Makai Resort (Barra dos Coqueiros)': 'Makai', 
+                                            'Transfer OUT Aeroporto - Região Orla': 'Aracaju', 'Transfer IN Aeroporto - Região Orla': 'Aracaju', 
+                                            'Transfer OUT Aeroporto - Região Sul': 'Aracaju', 'Transfer IN Aeroporto - Região Sul': 'Aracaju'}
+
     elif base_fonte=='fen':
 
         st.session_state.base_luck = 'test_phoenix_noronha'
+
+        st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro', 'Escala']
+
+        st.session_state.id_gsheet = '1aGO6ni3zLJwzAXuhXNUZfIjjZ87japcg3GPsUEReMIs'
+
+        st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentolucknoronha"
+
+        st.session_state.colunas_valores_df_pag_forn = ['Valor ADT', 'Valor CHD', 'Valor Final']
+
+        st.session_state.colunas_numeros_inteiros_df_pag_forn = ['Total ADT', 'Total CHD']
+
+        st.session_state.lista_servicos_tarifarios_por_pax = ['ACTE MERGULHO BATISMO', 'MERGULHO BATISMO DE PRAIA', 'MERGULHO BATISMO EMBARCADO (MANHÃ)', 'MERGULHO BATISMO EMBARCADO (TARDE)', 
+                                                              'MERGULHO CREDENCIADO C/ EQUIPAMENTO', 'MERGULHO CREDENCIADO S/ EQUIPAMENTO', 'PASSEIO DE BARCO', 'PASSEIO DE CANOA']
+        
+        st.session_state.lista_servicos_barcos = ['PASSEIO DE BARCO PRIVATIVO', 'BARCO PRIVATICO PRAIA CONCEICAO / PORTO']
 
     elif base_fonte=='nat':
 
@@ -1148,6 +1257,25 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.colunas_valores_df_pag = ['Adicional Passeio Motoguia', 'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']
 
+        st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
+
+        st.session_state.colunas_valores_df_pag_forn_add = ['Valor ADT', 'Valor CHD', 'Valor Final']
+
+        st.session_state.colunas_numeros_inteiros_df_pag_forn_add = ['Total ADT', 'Total CHD']
+
+        st.session_state.dict_tp_veic = {'Ônibus': 'Bus', 'Sedan': 'Utilitario', '4X4': 'Utilitario', 'Executivo': 'Utilitario', 'Micrão': 'Micro', 'Executivo Blindado': 'Utilitario', 
+                                         'Monovolume': 'Utilitario'}
+        
+        st.session_state.dict_tratar_servico_in_out = {'In Natal - Hotéis Parceiros ': 'IN - Natal ', 'IN Touros - Hotéis Parceiros': 'IN - Touros', 'IN Pipa - Hotéis Parceiros ': 'IN - Pipa', 
+                                                       'OUT Natal - Hotéis Parceiros ': 'OUT - Natal', 'OUT Pipa - Hotéis Parceiros': 'OUT - Pipa', 'OUT Touros - hotéis Parceiros': 'OUT - Touros'}
+        
+        st.session_state.dict_conjugados = {'OUT - Pipa': 'Pipa', 'IN - Pipa': 'Pipa', 'OUT - Touros': 'Touros', 'IN - Touros': 'Touros', 'OUT - Natal': 'Natal', 'IN - Natal ': 'Natal', 
+                                            'OUT - Tripulacao': 'Tripulacao', 'IN - Tripulacao': 'Tripulacao', 'OUT - São Miguel Gostoso': 'Sao Miguel', 'IN - São Miguel Gostoso': 'Sao Miguel'}
+        
+        st.session_state.dict_trf_hotel_conjugado = {'TRF  Pipa/Natal': 1, 'TRF Natal/Pipa ': 2, 'TRF Natal/Touros': 3, 'TRF Touros/Natal': 4, 'TRF Natal/São Miguel': 5, 'TRF São Miguel/Natal': 6}
+
+        st.session_state.lista_passeios_apoio_bolero_cunhau = ['Passeio à João Pessoa com Bolero (PIPA)', 'Passeio à Barra do Cunhaú (NAT)', 'Tour à Barra do Cunhaú (PIPA)']
+
     elif base_fonte=='jpa':
 
         st.session_state.base_luck = 'test_phoenix_joao_pessoa'
@@ -1160,596 +1288,610 @@ if not 'base_luck' in st.session_state:
 
         st.session_state.colunas_valores_df_pag = ['Valor Final']
 
-# Puxando dados do Phoenix
+        st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
 
-if not 'df_escalas' in st.session_state or st.session_state.view_phoenix!='vw_pagamento_guias':
-    
-    with st.spinner('Puxando dados do Phoenix...'):
+        st.session_state.colunas_valores_df_pag_buggy_4x4 = ['Valor Venda', 'Desconto Reserva', 'Venda Líquida de Desconto', 'Valor Net', 'Valor Final']
 
-        puxar_dados_phoenix()
+        st.session_state.colunas_valores_df_pag_motoristas = ['Valor Diária', 'Valor 50%', 'Ajuda de Custo', 'Valor Final']
 
-st.title('Mapa de Pagamento - Guias')
+        st.session_state.excluir_servicos_df_sales = ['EXTRA']
 
-st.divider()
+        st.session_state.dict_tp_veic = {'Monovolume': 'Utilitario', 'Ônibus': 'Bus'}
 
-row1 = st.columns(2)
+        st.session_state.dict_conjugados = {'HOTÉIS JOÃO PESSOA / AEROPORTO JOÃO PESSOA': 'João Pessoa', 'AEROPORTO JOÃO PESSOA / HOTEIS JOÃO PESSOA': 'João Pessoa'}
 
-# Container de datas e botão de gerar mapa
+if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador', 'test_phoenix_natal', 'test_phoenix_joao_pessoa']:
 
-with row1[0]:
+    # Puxando dados do Phoenix
 
-    container_datas = st.container(border=True)
-
-    container_datas.subheader('Período')
-
-    data_inicial = container_datas.date_input('Data Inicial', value=None ,format='DD/MM/YYYY', key='data_inicial')
-
-    data_final = container_datas.date_input('Data Final', value=None ,format='DD/MM/YYYY', key='data_final')
-
-    row1_2 = container_datas.columns(2)
-
-    with row1_2[0]:
-
-        gerar_mapa = st.button('Gerar Mapa de Pagamentos')
-
-# Botão de atualizar dados do phoenix e data de pagamento
-
-with row1[1]:
-
-    atualizar_phoenix = st.button('Atualizar Dados Phoenix')
-
-    container_data_pgto = st.container(border=True)
-
-    container_data_pgto.subheader('Data de Pagamento')
-
-    data_pagamento = container_data_pgto.date_input('Data de Pagamento', value=None ,format='DD/MM/YYYY', key='data_pagamento')
-
-    if not data_pagamento:
-
-        st.warning('Preencha a data de pagamento para visualizar os mapas de pagamentos.')
-
-    if atualizar_phoenix:
-
+    if not 'df_escalas' in st.session_state or st.session_state.view_phoenix!='vw_pagamento_guias':
+        
         with st.spinner('Puxando dados do Phoenix...'):
 
             puxar_dados_phoenix()
 
-st.divider()
+    st.title('Mapa de Pagamento - Guias')
 
-# Geração de dataframe com os mapas de pagamentos
+    st.divider()
 
-if gerar_mapa and data_inicial and data_final:
+    row1 = st.columns(2)
 
-    # Base REC
+    # Container de datas e botão de gerar mapa
 
-    if st.session_state.base_luck == 'test_phoenix_recife':
+    with row1[0]:
 
-        with st.spinner('Puxando configurações, tarifários, programação de passeios espanhol, extras barco Carneiros, guias apenas recepção, apoios ao box, serviços navio e guias idioma...'):
+        container_datas = st.container(border=True)
 
-            puxar_configuracoes()
+        container_datas.subheader('Período')
 
-            puxar_tarifario()
+        data_inicial = container_datas.date_input('Data Inicial', value=None ,format='DD/MM/YYYY', key='data_inicial')
 
-            puxar_programacao_passeios()
+        data_final = container_datas.date_input('Data Final', value=None ,format='DD/MM/YYYY', key='data_final')
 
-            puxar_aba_simples(st.session_state.id_gsheet, 'Extra Barco', 'df_extra_barco')
+        row1_2 = container_datas.columns(2)
 
-            puxar_aba_simples(st.session_state.id_gsheet, 'Apenas Recepção', 'df_apenas_recepcao')
+        with row1_2[0]:
 
-            puxar_aba_simples(st.session_state.id_gsheet, 'Guias Idioma', 'df_guias_idioma')
+            gerar_mapa = st.button('Gerar Mapa de Pagamentos')
 
-            puxar_apoios_box()
+    # Botão de atualizar dados do phoenix e data de pagamento
 
-            puxar_servicos_navio()
+    with row1[1]:
 
-        with st.spinner('Gerando mapas de pagamentos...'):
+        atualizar_phoenix = st.button('Atualizar Dados Phoenix')
 
-            # Gerando dataframe com escalas dentro do período selecionado
+        container_data_pgto = st.container(border=True)
 
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
+        container_data_pgto.subheader('Data de Pagamento')
 
-            # Ajustando serviço GUIA BILINGUE pra o robô poder identificar como serviço com idioma diferente de português p/ base de Recife
+        data_pagamento = container_data_pgto.date_input('Data de Pagamento', value=None ,format='DD/MM/YYYY', key='data_pagamento')
 
-            df_escalas.loc[df_escalas['Adicional'].str.contains('GUIA BILINGUE', na=False), 'Idioma'] = 'en-us'
+        if not data_pagamento:
 
-            # Agrupando escalas
+            st.warning('Preencha a data de pagamento para visualizar os mapas de pagamentos.')
 
-            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string}).reset_index()
-            
-            # Identificando passeios regulares saindo de PORTO
+        if atualizar_phoenix:
 
-            df_escalas_group = identificar_passeios_regulares_saindo_de_porto(df_escalas_group)
+            with st.spinner('Puxando dados do Phoenix...'):
 
-            # Filtrando passeios que tem idioma diferente e estão dentro da programação de pagamento de idioma estrangeiro
+                puxar_dados_phoenix()
 
-            df_escalas_group = filtrando_idiomas_passeios_programacao_espanhol(df_escalas_group)
+    st.divider()
 
-            # Filtrando pagamento de idioma só pra guias que realmente falam outros idiomas
+    # Geração de dataframe com os mapas de pagamentos
 
-            df_escalas_group = filtrar_idiomas_so_para_guias_que_falam_o_idioma(df_escalas_group)
+    if gerar_mapa and data_inicial and data_final:
 
-            # Identificando e precificando motoguias
+        # Base REC
 
-            df_escalas_group.loc[df_escalas_group['Motorista']==df_escalas_group['Guia'], ['Motoguia', 'Valor Final']] = \
-                ['X', st.session_state.df_config[st.session_state.df_config['Configuração']=='Valor Motoguia']['Valor Parâmetro'].iloc[0]]
+        if st.session_state.base_luck == 'test_phoenix_recife':
 
-            df_escalas_group['Motoguia'] = df_escalas_group['Motoguia'].fillna('')
-            
-            # Transformando vários trf feitos em um dia por um motoguia em valor de diária
-            
-            df_escalas_group = calculo_diarias_motoguias_trf(df_escalas_group)
+            with st.spinner('Puxando configurações, tarifários, programação de passeios espanhol, extras barco Carneiros, guias apenas recepção, apoios ao box, serviços navio e guias idioma...'):
 
-            # Retirando escalas repetidas sem perder a informação de que existe paxs estrangeiro em alguma das escalas
+                puxar_configuracoes()
 
-            df_escalas_group = retirar_passeios_repetidos(df_escalas_group)
+                puxar_tarifario()
 
-            # Precificando extra pago pelo rodízio no barco carneiros
+                puxar_programacao_passeios()
 
-            df_escalas_group = precificar_extra_barco_carneiros(df_escalas_group)
+                puxar_aba_simples(st.session_state.id_gsheet, 'Extra Barco', 'df_extra_barco')
 
-            # Precificando trf que foram feitos apenas recepção
+                puxar_aba_simples(st.session_state.id_gsheet, 'Apenas Recepção', 'df_apenas_recepcao')
 
-            df_escalas_group = precificar_apenas_recepcao(df_escalas_group)
+                puxar_aba_simples(st.session_state.id_gsheet, 'Guias Idioma', 'df_guias_idioma')
 
-            # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
-            
-            for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
+                puxar_apoios_box()
 
-                lista_passeios_ref = conjunto_passeios.split(' & ')
+                puxar_servicos_navio()
 
-                df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+            with st.spinner('Gerando mapas de pagamentos...'):
 
-            # Colocando valores de serviços
+                # Gerando dataframe com escalas dentro do período selecionado
 
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
+                df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
 
-            # Precificar valor final de todos os serviços
-            
-            df_escalas_group.loc[pd.isna(df_escalas_group['Valor Final']), 'Valor Final'] = df_escalas_group.loc[pd.isna(df_escalas_group['Valor Final'])]\
-                .apply(lambda row: row['Valor Idioma'] if row['Idioma'] != 'pt-br' else row['Valor'], axis=1)
+                # Ajustando serviço GUIA BILINGUE pra o robô poder identificar como serviço com idioma diferente de português p/ base de Recife
+
+                df_escalas.loc[df_escalas['Adicional'].str.contains('GUIA BILINGUE', na=False), 'Idioma'] = 'en-us'
+
+                # Agrupando escalas
+
+                df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
+                    .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string}).reset_index()
                 
-            # Verificando se todos os serviços estão na lista de serviços do tarifário
-                
-            verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Final')
+                # Identificando passeios regulares saindo de PORTO
 
-            # Somando Barco Carneiros na coluna Valor Final
+                df_escalas_group = identificar_passeios_regulares_saindo_de_porto(df_escalas_group)
+
+                # Filtrando passeios que tem idioma diferente e estão dentro da programação de pagamento de idioma estrangeiro
+
+                df_escalas_group = filtrando_idiomas_passeios_programacao_espanhol(df_escalas_group)
+
+                # Filtrando pagamento de idioma só pra guias que realmente falam outros idiomas
+
+                df_escalas_group = filtrar_idiomas_so_para_guias_que_falam_o_idioma(df_escalas_group)
+
+                # Identificando e precificando motoguias
+
+                df_escalas_group.loc[df_escalas_group['Motorista']==df_escalas_group['Guia'], ['Motoguia', 'Valor Final']] = \
+                    ['X', st.session_state.df_config[st.session_state.df_config['Configuração']=='Valor Motoguia']['Valor Parâmetro'].iloc[0]]
+                
+                df_escalas_group['Motoguia'] = df_escalas_group['Motoguia'].fillna('')
+                
+                # Transformando vários trf feitos em um dia por um motoguia em valor de diária
+                
+                df_escalas_group = calculo_diarias_motoguias_trf(df_escalas_group)
+
+                # Retirando escalas repetidas sem perder a informação de que existe paxs estrangeiro em alguma das escalas
+
+                df_escalas_group = retirar_passeios_repetidos(df_escalas_group)
+
+                # Precificando extra pago pelo rodízio no barco carneiros
+
+                df_escalas_group = precificar_extra_barco_carneiros(df_escalas_group)
+
+                # Precificando trf que foram feitos apenas recepção
+
+                df_escalas_group = precificar_apenas_recepcao(df_escalas_group)
+
+                # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
+                
+                for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
+
+                    lista_passeios_ref = conjunto_passeios.split(' & ')
+
+                    df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+
+                # Colocando valores de serviços
+
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
+
+                # Precificar valor final de todos os serviços
+                
+                df_escalas_group.loc[pd.isna(df_escalas_group['Valor Final']), 'Valor Final'] = df_escalas_group.loc[pd.isna(df_escalas_group['Valor Final'])]\
+                    .apply(lambda row: row['Valor Idioma'] if row['Idioma'] != 'pt-br' else row['Valor'], axis=1)
+                    
+                # Verificando se todos os serviços estão na lista de serviços do tarifário
+                    
+                verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Final')
+
+                # Somando Barco Carneiros na coluna Valor Final
+            
+                df_escalas_group['Valor Final'] = df_escalas_group['Valor Final'] + df_escalas_group['Barco Carneiros']
+
+                # Gerando dataframe final
+
+                gerar_df_pag_final_recife(df_escalas_group)
+
+        # Base SSA
+
+        elif st.session_state.base_luck == 'test_phoenix_salvador':
+
+            with st.spinner('Puxando configurações, tarifários, ubers, eventos, horas extras, guias dentro do tarifário luck...'):
+
+                puxar_configuracoes()
+
+                puxar_tarifario()
+
+                puxar_ubers()
+
+                puxar_eventos()
+
+                puxar_hora_extra()
+
+                puxar_aba_simples(st.session_state.id_gsheet, 'Lista Guias Tarifário Luck', 'df_guias_tarifario_msc')
+
+            with st.spinner('Gerando mapas de pagamentos...'):
+
+                # Gerando dataframe com escalas dentro do período selecionado e retirando serviços que não devem entrar no mapa de pagamento (definidos nas configurações)
+
+                df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final) & 
+                                                        (~st.session_state.df_escalas['Servico'].isin(st.session_state.df_config[st.session_state.df_config['Configuração']=='Excluir Serviços']['Parâmetro']))]\
+                                                            .reset_index(drop=True)
+
+                # Agrupando escalas
+
+                df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
+                    .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min', 'Parceiro': transformar_em_string}).reset_index()
+                
+                # Alterando TRF LITORAL NORTE p/ Diurno e Noturno
+
+                df_escalas_group = identificar_trf_ln_diurno_noturno(df_escalas_group)
+
+                # Adicionando Apoios no dataframe de pagamentos
+
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+
+                # Identificando motoguias
+
+                df_escalas_group = identificar_motoguias(df_escalas_group)
+
+                # Adicionando valor de uber por escala
+
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_uber[['Escala', 'Valor Uber']], on='Escala', how='left')
+
+                df_escalas_group['Valor Uber'] = df_escalas_group['Valor Uber'].fillna(0)
+
+                # Adicionando valor de hora extra por escala
+
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_hora_extra[['Escala', 'Valor Hora Extra']], on='Escala', how='left')
+
+                df_escalas_group['Valor Hora Extra'] = df_escalas_group['Valor Hora Extra'].fillna(0)
+
+                # Colocando valores de serviços
+
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
+
+                # Gerando Valor Serviço
+
+                df_escalas_group['Valor Serviço'] = df_escalas_group.apply(lambda row: row['Valor Motoguia'] if row['Motoguia'] == 'X' else row['Valor'], axis=1)
+
+                # Precificar serviços feitos em período de evento
+
+                df_escalas_group = precificar_valor_de_servicos_em_eventos(df_escalas_group, df_escalas)
+
+                # Precificar serviços MSC
+
+                df_escalas_group = precificar_servicos_msc(df_escalas_group)
+
+                # Ajustando valores idioma sem MSC
+
+                df_escalas_group = incrementar_valor_idioma_nao_msc(df_escalas_group)
+
+                # Ajustando valores idiomas de serviços MSC
+
+                df_escalas_group = incrementar_valor_idioma_msc(df_escalas_group)
+
+                # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
+                
+                for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
+
+                    lista_passeios_ref = conjunto_passeios.split(' & ')
+
+                    df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+
+                # Verificando se todos os serviços estão na lista de serviços do tarifário
+                    
+                verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Serviço')
+
+                # Gerando Valor Total
+
+                df_escalas_group['Valor Final'] = df_escalas_group['Valor Uber'] + df_escalas_group['Valor Serviço'] + df_escalas_group['Valor Hora Extra']
+
+                # Gerando dataframe final
+
+                st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Valor Uber', 'Valor Hora Extra', 'Valor Final']]
+
+        # Base NAT
+
+        elif st.session_state.base_luck == 'test_phoenix_natal':
+
+            with st.spinner('Puxando configurações, tarifários...'):
+
+                puxar_configuracoes()
+
+                puxar_tarifario()
+
+            with st.spinner('Gerando mapas de pagamentos...'):
+
+                # Filtrando período solicitado pelo usuário
+
+                df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
+
+                # Adicionando somatório de ADT e CHD
+
+                df_escalas['Total ADT | CHD'] = df_escalas['Total ADT'] + df_escalas['Total CHD']
+
+                # Forçando idioma espanhol nos voos espanhois
+
+                df_escalas.loc[df_escalas['Voo'].isin(st.session_state.df_config[st.session_state.df_config['Configuração']=='Voo Espanhol']['Parâmetro']), 'Idioma'] = 'es-es'
+
+                # Ajustando idiomas estrangeiros
+
+                df_escalas['Idioma'] = df_escalas['Idioma'].replace({'all': 'en-us', 'it-ele': 'en-us'})
+
+                # Agrupando escalas
+
+                df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
+                    .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Total ADT | CHD': 'sum', 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min'}).reset_index()
+                
+                # Retirando informação da coluna Idioma para TOUR REGULAR com menos de 8 paxs
+
+                df_escalas_group = retirar_idioma_tour_reg_8_paxs(df_escalas_group)
+
+                # Calculando adicional p/ tours como motoguia
+
+                df_escalas_group = calcular_adicional_motoguia_tour(df_escalas_group)
+
+                # Calculando adicional motoguia após 20:00 p/ Pipatour
+
+                df_escalas_group = calcular_adicional_20h_pipatour(df_escalas_group)
+
+                # Adicionando Apoios no dataframe de pagamentos
+
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+
+                df_escalas_group['Adicional Passeio Motoguia'] = df_escalas_group['Adicional Passeio Motoguia'].fillna(0)
+
+                df_escalas_group['Adicional Motoguia Após 20:00'] = df_escalas_group['Adicional Motoguia Após 20:00'].fillna(0)
+
+                # Calculando adicional p/ motoguias em diversos TRF/APOIO
+
+                df_escalas_group = calcular_adicional_motoguia_ref_apoio(df_escalas_group)
+
+                # Calculando adicional motoguia após 20:00 p/ Transfers Natal, Camurupim, Pipa, Touros ou São Miguel do Gostoso
+
+                df_escalas_group = calcular_adicional_apos_20h_trf(df_escalas_group)
+
+                # Colocando valores tarifarios
         
-            df_escalas_group['Valor Final'] = df_escalas_group['Valor Final'] + df_escalas_group['Barco Carneiros']
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
 
-            # Gerando dataframe final
+                # Definindo valores de diárias
 
-            gerar_df_pag_final_recife(df_escalas_group)
-
-    # Base SSA
-
-    elif st.session_state.base_luck == 'test_phoenix_salvador':
-
-        with st.spinner('Puxando configurações, tarifários, ubers, eventos, horas extras, guias dentro do tarifário luck...'):
-
-            puxar_configuracoes()
-
-            puxar_tarifario()
-
-            puxar_ubers()
-
-            puxar_eventos()
-
-            puxar_hora_extra()
-
-            puxar_aba_simples(st.session_state.id_gsheet, 'Lista Guias Tarifário Luck', 'df_guias_tarifario_msc')
-
-        with st.spinner('Gerando mapas de pagamentos...'):
-
-            # Gerando dataframe com escalas dentro do período selecionado e retirando serviços que não devem entrar no mapa de pagamento (definidos nas configurações)
-
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final) & 
-                                                    (~st.session_state.df_escalas['Servico'].isin(st.session_state.df_config[st.session_state.df_config['Configuração']=='Excluir Serviços']['Parâmetro']))]\
-                                                        .reset_index(drop=True)
-
-            # Agrupando escalas
-
-            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min', 'Parceiro': transformar_em_string}).reset_index()
-            
-            # Alterando TRF LITORAL NORTE p/ Diurno e Noturno
-
-            df_escalas_group = identificar_trf_ln_diurno_noturno(df_escalas_group)
-
-            # Adicionando Apoios no dataframe de pagamentos
-
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
-
-            # Identificando motoguias
-
-            df_escalas_group = identificar_motoguias(df_escalas_group)
-
-            # Adicionando valor de uber por escala
-
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_uber[['Escala', 'Valor Uber']], on='Escala', how='left')
-
-            df_escalas_group['Valor Uber'] = df_escalas_group['Valor Uber'].fillna(0)
-
-            # Adicionando valor de hora extra por escala
-
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_hora_extra[['Escala', 'Valor Hora Extra']], on='Escala', how='left')
-
-            df_escalas_group['Valor Hora Extra'] = df_escalas_group['Valor Hora Extra'].fillna(0)
-
-            # Colocando valores de serviços
-
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
-
-            # Gerando Valor Serviço
-
-            df_escalas_group['Valor Serviço'] = df_escalas_group.apply(lambda row: row['Valor Motoguia'] if row['Motoguia'] == 'X' else row['Valor'], axis=1)
-
-            # Precificar serviços feitos em período de evento
-
-            df_escalas_group = precificar_valor_de_servicos_em_eventos(df_escalas_group, df_escalas)
-
-            # Precificar serviços MSC
-
-            df_escalas_group = precificar_servicos_msc(df_escalas_group)
-
-            # Ajustando valores idioma sem MSC
-
-            df_escalas_group = incrementar_valor_idioma_nao_msc(df_escalas_group)
-
-            # Ajustando valores idiomas de serviços MSC
-
-            df_escalas_group = incrementar_valor_idioma_msc(df_escalas_group)
-
-            # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
-            
-            for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
-
-                lista_passeios_ref = conjunto_passeios.split(' & ')
-
-                df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
-
-            # Verificando se todos os serviços estão na lista de serviços do tarifário
+                df_escalas_group['Valor Serviço'] = df_escalas_group.apply(lambda row: row['Valor Padrão'] if row['Idioma'] in ['pt-br', ''] else 
+                                                                        row['Valor Inglês'] if 'en-us' in row['Idioma'] else 
+                                                                        row ['Valor Espanhol'] if 'es-es' in row['Idioma'] else 0, axis=1)
                 
-            verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Serviço')
+                # Verificando se todos os serviços estão na lista de serviços do tarifário
+                    
+                verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Serviço')
 
-            # Gerando Valor Total
+                # Somando valores pra calcular o valor total de cada linha
 
-            df_escalas_group['Valor Final'] = df_escalas_group['Valor Uber'] + df_escalas_group['Valor Serviço'] + df_escalas_group['Valor Hora Extra']
-
-            # Gerando dataframe final
-
-            st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Valor Uber', 'Valor Hora Extra', 'Valor Final']]
-
-    # Base NAT
-
-    elif st.session_state.base_luck == 'test_phoenix_natal':
-
-        with st.spinner('Puxando configurações, tarifários...'):
-
-            puxar_configuracoes()
-
-            puxar_tarifario()
-
-        with st.spinner('Gerando mapas de pagamentos...'):
-
-            # Filtrando período solicitado pelo usuário
-
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
-
-            # Adicionando somatório de ADT e CHD
-
-            df_escalas['Total ADT | CHD'] = df_escalas['Total ADT'] + df_escalas['Total CHD']
-
-            # Forçando idioma espanhol nos voos espanhois
-
-            df_escalas.loc[df_escalas['Voo'].isin(st.session_state.df_config[st.session_state.df_config['Configuração']=='Voo Espanhol']['Parâmetro']), 'Idioma'] = 'es-es'
-
-            # Ajustando idiomas estrangeiros
-
-            df_escalas['Idioma'] = df_escalas['Idioma'].replace({'all': 'en-us', 'it-ele': 'en-us'})
-
-            # Agrupando escalas
-
-            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Total ADT | CHD': 'sum', 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min'}).reset_index()
-            
-            # Retirando informação da coluna Idioma para TOUR REGULAR com menos de 8 paxs
-
-            df_escalas_group = retirar_idioma_tour_reg_8_paxs(df_escalas_group)
-
-            # Calculando adicional p/ tours como motoguia
-
-            df_escalas_group = calcular_adicional_motoguia_tour(df_escalas_group)
-
-            # Calculando adicional motoguia após 20:00 p/ Pipatour
-
-            df_escalas_group = calcular_adicional_20h_pipatour(df_escalas_group)
-
-            # Adicionando Apoios no dataframe de pagamentos
-
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
-
-            df_escalas_group['Adicional Passeio Motoguia'] = df_escalas_group['Adicional Passeio Motoguia'].fillna(0)
-
-            df_escalas_group['Adicional Motoguia Após 20:00'] = df_escalas_group['Adicional Motoguia Após 20:00'].fillna(0)
-
-            # Calculando adicional p/ motoguias em diversos TRF/APOIO
-
-            df_escalas_group = calcular_adicional_motoguia_ref_apoio(df_escalas_group)
-
-            # Calculando adicional motoguia após 20:00 p/ Transfers Natal, Camurupim, Pipa, Touros ou São Miguel do Gostoso
-
-            df_escalas_group = calcular_adicional_apos_20h_trf(df_escalas_group)
-
-            # Colocando valores tarifarios
-    
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
-
-            # Definindo valores de diárias
-
-            df_escalas_group['Valor Serviço'] = df_escalas_group.apply(lambda row: row['Valor Padrão'] if row['Idioma'] in ['pt-br', ''] else 
-                                                                    row['Valor Inglês'] if 'en-us' in row['Idioma'] else 
-                                                                    row ['Valor Espanhol'] if 'es-es' in row['Idioma'] else 0, axis=1)
-            
-            # Verificando se todos os serviços estão na lista de serviços do tarifário
+                df_escalas_group['Valor Final'] = df_escalas_group['Adicional Passeio Motoguia'] + df_escalas_group['Adicional Motoguia Após 20:00'] + \
+                    df_escalas_group['Adicional Diária Motoguia TRF|APOIO'] + df_escalas_group['Valor Serviço']
                 
-            verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Serviço')
+                # Ajustando pagamentos de DIDI e RODRIGO SALES
 
-            # Somando valores pra calcular o valor total de cada linha
+                df_escalas_group.loc[df_escalas_group['Guia'].isin(['DIDI', 'RODRIGO SALES']), 'Valor Final'] = df_escalas_group['Valor Serviço'] * 0.5
 
-            df_escalas_group['Valor Final'] = df_escalas_group['Adicional Passeio Motoguia'] + df_escalas_group['Adicional Motoguia Após 20:00'] + \
-                df_escalas_group['Adicional Diária Motoguia TRF|APOIO'] + df_escalas_group['Valor Serviço']
+                # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
+                
+                for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
+
+                    lista_passeios_ref = conjunto_passeios.split(' & ')
+
+                    df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+
+                # Gerando dataframe final
+
+                st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Idioma', 'Adicional Passeio Motoguia', 
+                                                                        'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']]
             
-            # Ajustando pagamentos de DIDI e RODRIGO SALES
+        # Base JPA
 
-            df_escalas_group.loc[df_escalas_group['Guia'].isin(['DIDI', 'RODRIGO SALES']), 'Valor Final'] = df_escalas_group['Valor Serviço'] * 0.5
+        elif st.session_state.base_luck == 'test_phoenix_joao_pessoa':
 
-            # Excluir escalas de passeios duplicadas (quando o nome do passeio não é igual)
-            
-            for conjunto_passeios in st.session_state.df_config[st.session_state.df_config['Configuração']=='Passeios Duplicados']['Parâmetro']:
+            with st.spinner('Puxando configurações, tarifários...'):
 
-                lista_passeios_ref = conjunto_passeios.split(' & ')
+                puxar_configuracoes()
 
-                df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+                puxar_tarifario()
 
-            # Gerando dataframe final
+            with st.spinner('Gerando mapas de pagamentos...'):
 
-            st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Idioma', 'Adicional Passeio Motoguia', 
-                                                                    'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']]
+                # Filtrando período solicitado pelo usuário
+
+                df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final) & 
+                                                        (~st.session_state.df_escalas['Guia'].isin(['', 'SEM GUIA'])) & (~st.session_state.df_escalas['Servico'].str.upper().str.contains('4X4|BUGGY'))]\
+                                                            .reset_index(drop=True)
+                
+                # Agrupando escalas
+
+                df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
+                    .agg({'Apoio': transformar_em_string,  'Horario Voo': transformar_em_string, 'Data | Horario Apresentacao': 'min', 'Est. Origem': transformar_em_string}).reset_index()
+
+                # Criando colunas com horários de voos mais tarde e mais cedo
+
+                df_escalas_group = colunas_voos_mais_tarde_cedo(df_escalas_group)
+
+                # Adicionando Apoios no dataframe de pagamentos
+
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+
+                # Identificando motoguias
+
+                df_escalas_group = identificar_motoguias(df_escalas_group)
+
+                # Deixando apenas BA´RA HOTEL na coluna Est. Origem quando o serviço não for regular
+
+                df_escalas_group.loc[(df_escalas_group['Est. Origem'] != 'BA´RA HOTEL') | (df_escalas_group['Modo'] == 'REGULAR'), 'Est. Origem'] = ''
+
+                # Identificando voos diurnos e na madrugada
+
+                df_escalas_group['Diurno / Madrugada'] = df_escalas_group.apply(lambda row: 'MADRUGADA' if row['Tipo de Servico'] in ['IN', 'OUT'] and 
+                                                                                ((row['Data | Horario Apresentacao'].time()<=time(4,0)) or (row['Horario Voo Mais Tarde']<=time(4))) 
+                                                                                else 'DIURNO', axis=1)
+                
+                # Diminuindo 1 dia dos OUTs da madrugada, mas que tem horário no final do dia anterior
+
+                mask_out_madrugada = (df_escalas_group['Tipo de Servico']=='OUT') & (df_escalas_group['Diurno / Madrugada']=='MADRUGADA') & \
+                    (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time>time(4))
+
+                df_escalas_group.loc[mask_out_madrugada, 'Data | Horario Apresentacao'] = df_escalas_group.loc[mask_out_madrugada, 'Data | Horario Apresentacao'] - timedelta(days=1)
+
+                # Verificando junções de OUTs e INs
+
+                df_escalas_group = verificar_juncoes_in_out(df_escalas_group)
+
+                # Colocando valores tarifarios
         
-    # Base JPA
+                df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
 
-    elif st.session_state.base_luck == 'test_phoenix_joao_pessoa':
-
-        with st.spinner('Puxando configurações, tarifários...'):
-
-            puxar_configuracoes()
-
-            puxar_tarifario()
-
-        with st.spinner('Gerando mapas de pagamentos...'):
-
-            # Filtrando período solicitado pelo usuário
-
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final) & 
-                                                    (~st.session_state.df_escalas['Guia'].isin(['', 'SEM GUIA'])) & (~st.session_state.df_escalas['Servico'].str.upper().str.contains('4X4|BUGGY'))]\
-                                                        .reset_index(drop=True)
+                # Criando coluna Valor Final pra escolher quais das colunas do tarifário vai ser usada pra tarifar cada serviço
             
-            # Agrupando escalas
+                df_escalas_group['Valor Final'] = df_escalas_group.apply(calcular_valor_servico, axis=1)
 
-            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                .agg({'Apoio': transformar_em_string,  'Horario Voo': transformar_em_string, 'Data | Horario Apresentacao': 'min', 'Est. Origem': transformar_em_string}).reset_index()
+                # Verificando se todos os serviços estão na lista de serviços do tarifário
+                    
+                verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Final')
 
-            # Criando colunas com horários de voos mais tarde e mais cedo
+                # Ajustando valor final em 50% de aumento p/ serviço de motoguia
 
-            df_escalas_group = colunas_voos_mais_tarde_cedo(df_escalas_group)
+                df_escalas_group.loc[df_escalas_group['Motoguia']=='X', 'Valor Final'] = df_escalas_group.loc[df_escalas_group['Motoguia']=='X', 'Valor Final']*1.5
 
-            # Adicionando Apoios no dataframe de pagamentos
+                # Ajustando pagamento de Giuliano, Junior e Neto
 
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+                df_escalas_group = ajustar_pag_giuliano_junior_neto(df_escalas_group)
 
-            # Identificando motoguias
+                # Ajustando valor mínimo de transferistas
 
-            df_escalas_group = identificar_motoguias(df_escalas_group)
+                df_escalas_group = ajustar_valor_transferistas(df_escalas_group)
 
-            # Deixando apenas BA´RA HOTEL na coluna Est. Origem quando o serviço não for regular
+                # Ajustando valor final em 50% de redução p/ trf conjugado
 
-            df_escalas_group.loc[(df_escalas_group['Est. Origem'] != 'BA´RA HOTEL') | (df_escalas_group['Modo'] == 'REGULAR'), 'Est. Origem'] = ''
+                df_escalas_group.loc[df_escalas_group['Serviço Conjugado']=='X', 'Valor Final'] = df_escalas_group.loc[df_escalas_group['Serviço Conjugado']=='X', 'Valor Final']*0.5
 
-            # Identificando voos diurnos e na madrugada
+                st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Est. Origem', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 
+                                                                        'Serviço Conjugado', 'Valor Final']]
 
-            df_escalas_group['Diurno / Madrugada'] = df_escalas_group.apply(lambda row: 'MADRUGADA' if row['Tipo de Servico'] in ['IN', 'OUT'] and 
-                                                                            ((row['Data | Horario Apresentacao'].time()<=time(4,0)) or (row['Horario Voo Mais Tarde']<=time(4))) 
-                                                                            else 'DIURNO', axis=1)
-            
-            # Diminuindo 1 dia dos OUTs da madrugada, mas que tem horário no final do dia anterior
+    # Opção de salvar o mapa gerado no Gsheet
 
-            mask_out_madrugada = (df_escalas_group['Tipo de Servico']=='OUT') & (df_escalas_group['Diurno / Madrugada']=='MADRUGADA') & \
-                (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time>time(4))
+    if 'df_pag_final_guias' in st.session_state:
 
-            df_escalas_group.loc[mask_out_madrugada, 'Data | Horario Apresentacao'] = df_escalas_group.loc[mask_out_madrugada, 'Data | Horario Apresentacao'] - timedelta(days=1)
+        with row1_2[1]:
 
-            # Verificando junções de OUTs e INs
+            salvar_mapa = st.button('Salvar Mapa de Pagamentos')
 
-            df_escalas_group = verificar_juncoes_in_out(df_escalas_group)
+        if salvar_mapa and data_inicial and data_final:
 
-            # Colocando valores tarifarios
-    
-            df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_tarifario, on='Servico', how='left')
+            with st.spinner('Salvando mapa de pagamentos...'):
 
-            # Criando coluna Valor Final pra escolher quais das colunas do tarifário vai ser usada pra tarifar cada serviço
-        
-            df_escalas_group['Valor Final'] = df_escalas_group.apply(calcular_valor_servico, axis=1)
+                df_insercao = gerar_df_insercao_mapa_pagamento(data_inicial, data_final)
 
-            # Verificando se todos os serviços estão na lista de serviços do tarifário
-                
-            verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Guias', 'Valor Final')
+                inserir_dataframe_gsheet(df_insercao, st.session_state.id_gsheet, 'Histórico de Pagamentos Guias')
 
-            # Ajustando valor final em 50% de aumento p/ serviço de motoguia
+    # Gerar Mapas
 
-            df_escalas_group.loc[df_escalas_group['Motoguia']=='X', 'Valor Final'] = df_escalas_group.loc[df_escalas_group['Motoguia']=='X', 'Valor Final']*1.5
+    if 'df_pag_final_guias' in st.session_state:
 
-            # Ajustando pagamento de Giuliano, Junior e Neto
+        st.header('Gerar Mapas')
 
-            df_escalas_group = ajustar_pag_giuliano_junior_neto(df_escalas_group)
+        row2 = st.columns(2)
 
-            # Ajustando valor mínimo de transferistas
+        # Caixa de seleção de guia
 
-            df_escalas_group = ajustar_valor_transferistas(df_escalas_group)
+        guia, lista_guias = selecionar_guia_do_mapa(row2)
 
-            # Ajustando valor final em 50% de redução p/ trf conjugado
+        # Quando seleciona o guia
 
-            df_escalas_group.loc[df_escalas_group['Serviço Conjugado']=='X', 'Valor Final'] = df_escalas_group.loc[df_escalas_group['Serviço Conjugado']=='X', 'Valor Final']*0.5
+        if guia and data_pagamento and data_inicial and data_final:
 
-            st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Modo', 'Tipo de Servico', 'Servico', 'Est. Origem', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 
-                                                                    'Serviço Conjugado', 'Valor Final']]
+            row2_1 = st.columns(4)
 
-    else:
+            identificar_cnpj_razao_social(guia)
 
-        st.error('A sua base ainda não possui Mapa de Pagamento p/ Guias')
+            total_a_pagar, df_pag_guia = plotar_mapa_pagamento(guia, row2_1)
 
-# Opção de salvar o mapa gerado no Gsheet
+            botao_download_html_individual(total_a_pagar, df_pag_guia, guia)
 
-if 'df_pag_final_guias' in st.session_state:
+        # Quando não tem guia selecionado
 
-    with row1_2[1]:
+        elif data_pagamento:
 
-        salvar_mapa = st.button('Salvar Mapa de Pagamentos')
+            row2_1 = st.columns(4)
 
-    if salvar_mapa and data_inicial and data_final:
+            with row2_1[0]:
 
-        with st.spinner('Salvando mapa de pagamentos...'):
+                enviar_informes_geral = st.button(f'Enviar Informes Gerais')
 
-            df_insercao = gerar_df_insercao_mapa_pagamento(data_inicial, data_final)
+                # Envio de informes para todos os guias da lista
 
-            inserir_dataframe_gsheet(df_insercao, st.session_state.id_gsheet, 'Histórico de Pagamentos Guias')
+                if enviar_informes_geral and data_pagamento:
 
-# Gerar Mapas
+                    with st.spinner('Puxando contatos de guias...'):
 
-if 'df_pag_final_guias' in st.session_state:
+                        puxar_aba_simples(st.session_state.id_gsheet, 'Contatos Guias', 'df_contatos')
 
-    st.header('Gerar Mapas')
+                    lista_htmls, lista_htmls_email, lista_guias_sem_contato, lista_guias_contato_nulo = gerar_payload_envio_geral(lista_guias)
 
-    row2 = st.columns(2)
+                    verificar_guia_sem_contato(lista_guias_sem_contato, st.session_state.id_gsheet, 'Contatos Guias')
 
-    # Caixa de seleção de guia
+                    verificar_guia_contato_nulo(lista_guias_contato_nulo)
 
-    guia, lista_guias = selecionar_guia_do_mapa(row2)
+                    if len(lista_htmls)>0:
 
-    # Quando seleciona o guia
+                        enviar_informes_gerais(lista_htmls)
 
-    if guia and data_pagamento and data_inicial and data_final:
+                    if len(lista_htmls_email)>0:
 
-        row2_1 = st.columns(4)
+                        enviar_emails_gerais(lista_htmls_email)
 
-        identificar_cnpj_razao_social(guia)
+                # Geração de html com todos os guias da lista independente de apertar botão
 
-        total_a_pagar, df_pag_guia = plotar_mapa_pagamento(guia, row2_1)
+                elif not guia:
 
-        botao_download_html_individual(total_a_pagar, df_pag_guia, guia)
+                    nome_html = f'Mapas Guias Geral.html'
 
-    # Quando não tem guia selecionado
+                    with open(nome_html, "w", encoding="utf-8") as file:
 
-    elif data_pagamento:
+                        pass
+                    
+                    gerar_html_mapa_guias_geral(lista_guias)
 
-        row2_1 = st.columns(4)
+                    botao_download_html_geral(nome_html, row2_1)
 
-        with row2_1[0]:
+                    with row2_1[2]:
 
-            enviar_informes_geral = st.button(f'Enviar Informes Gerais')
+                        enviar_informes_financeiro = st.button(f'Enviar Informes Gerais p/ Financeiro')
 
-            # Envio de informes para todos os guias da lista
+                        if enviar_informes_financeiro:
 
-            if enviar_informes_geral and data_pagamento:
+                            lista_htmls, lista_htmls_email = gerar_payload_envio_geral_para_financeiro(lista_guias)
 
-                with st.spinner('Puxando contatos de guias...'):
+                            if len(lista_htmls)>0:
 
-                    puxar_aba_simples(st.session_state.id_gsheet, 'Contatos Guias', 'df_contatos')
+                                enviar_informes_gerais(lista_htmls)
 
-                lista_htmls, lista_htmls_email, lista_guias_sem_contato, lista_guias_contato_nulo = gerar_payload_envio_geral(lista_guias)
+                            if len(lista_htmls_email)>0:
 
-                verificar_guia_sem_contato(lista_guias_sem_contato, st.session_state.id_gsheet, 'Contatos Guias')
+                                enviar_emails_gerais(lista_htmls_email)
 
-                verificar_guia_contato_nulo(lista_guias_contato_nulo)
+    # Se tiver guia selecionado, dá a opção de enviar o informe individual
 
-                if len(lista_htmls)>0:
+    if 'html_content' in st.session_state and guia and data_pagamento:
 
-                    enviar_informes_gerais(lista_htmls)
+        with row2_1[2]:
 
-                if len(lista_htmls_email)>0:
+            enviar_informes_individual = st.button(f'Enviar Informes | {guia}')
 
-                    enviar_emails_gerais(lista_htmls_email)
+        if enviar_informes_individual:
 
-            # Geração de html com todos os guias da lista independente de apertar botão
+            with st.spinner('Puxando contatos de guias...'):
 
-            elif not guia:
+                puxar_aba_simples(st.session_state.id_gsheet, 'Contatos Guias', 'df_contatos')
 
-                nome_html = f'Mapas Guias Geral.html'
+            lista_guias_contato_nulo, lista_guias_sem_contato, contato_guia = gerar_listas_guias_sem_contato(guia)
 
-                with open(nome_html, "w", encoding="utf-8") as file:
+            verificar_guia_sem_contato(lista_guias_sem_contato, st.session_state.id_gsheet, 'Contatos Guias')
 
-                    pass
-                
-                gerar_html_mapa_guias_geral(lista_guias)
+            verificar_guia_contato_nulo(lista_guias_contato_nulo)
 
-                botao_download_html_geral(nome_html, row2_1)
+            if not '@' in contato_guia:
 
-                with row2_1[2]:
-
-                    enviar_informes_financeiro = st.button(f'Enviar Informes Gerais p/ Financeiro')
-
-                    if enviar_informes_financeiro:
-
-                        lista_htmls, lista_htmls_email = gerar_payload_envio_geral_para_financeiro(lista_guias)
-
-                        if len(lista_htmls)>0:
-
-                            enviar_informes_gerais(lista_htmls)
-
-                        if len(lista_htmls_email)>0:
-
-                            enviar_emails_gerais(lista_htmls_email)
-
-# Se tiver guia selecionado, dá a opção de enviar o informe individual
-
-if 'html_content' in st.session_state and guia and data_pagamento:
-
-    with row2_1[2]:
-
-        enviar_informes_individual = st.button(f'Enviar Informes | {guia}')
-
-    if enviar_informes_individual:
-
-        with st.spinner('Puxando contatos de guias...'):
-
-            puxar_aba_simples(st.session_state.id_gsheet, 'Contatos Guias', 'df_contatos')
-
-        lista_guias_contato_nulo, lista_guias_sem_contato, contato_guia = gerar_listas_guias_sem_contato(guia)
-
-        verificar_guia_sem_contato(lista_guias_sem_contato, st.session_state.id_gsheet, 'Contatos Guias')
-
-        verificar_guia_contato_nulo(lista_guias_contato_nulo)
-
-        if not '@' in contato_guia:
-
-            enviar_informes_individuais(contato_guia)
-
-        else:
-
-            enviar_email_individual(contato_guia)
-
-    with row2_1[3]:
-
-        enviar_informes_individual_financeiro = st.button(f'Enviar Informes | {guia} p/ Financeiro')
-
-        if enviar_informes_individual_financeiro:
-
-            contato_financeiro = st.session_state.df_config[st.session_state.df_config['Configuração']=='Contato Financeiro']['Parâmetro'].iloc[0]
-
-            if not '@' in contato_financeiro:
-
-                enviar_informes_individuais(contato_financeiro)
+                enviar_informes_individuais(contato_guia)
 
             else:
 
-                enviar_email_individual(contato_financeiro)
+                enviar_email_individual(contato_guia)
+
+        with row2_1[3]:
+
+            enviar_informes_individual_financeiro = st.button(f'Enviar Informes | {guia} p/ Financeiro')
+
+            if enviar_informes_individual_financeiro:
+
+                contato_financeiro = st.session_state.df_config[st.session_state.df_config['Configuração']=='Contato Financeiro']['Parâmetro'].iloc[0]
+
+                if not '@' in contato_financeiro:
+
+                    enviar_informes_individuais(contato_financeiro)
+
+                else:
+
+                    enviar_email_individual(contato_financeiro)
+
+else:
+
+    st.error('Esse painel funciona apenas p/ as bases de Recife, Salvador, João Pessoa e Natal.')
