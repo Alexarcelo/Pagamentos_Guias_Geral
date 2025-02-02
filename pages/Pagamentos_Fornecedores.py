@@ -1151,6 +1151,12 @@ def gerar_html_mapa_fornecedores_geral(lista_fornecedores, df_pag_final, colunas
 
             df_pag_fornecedor[item] = df_pag_fornecedor[item].apply(lambda x: format_currency(x, 'BRL', locale='pt_BR') if pd.notna(x) else x)
 
+        if st.session_state.base_luck=='test_phoenix_noronha':
+
+            for item in st.session_state.colunas_numeros_inteiros_df_pag_forn:
+
+                df_pag_fornecedor[item] = df_pag_fornecedor[item].astype(int)
+
         html = definir_html(df_pag_fornecedor)
 
         inserir_html(nome_html, html, fornecedor_ref, soma_servicos)
@@ -1182,7 +1188,13 @@ def gerar_payload_envio_geral_para_financeiro(lista_fornecedores, df_pag_final, 
 
         identificar_cnpj_razao_social(fornecedor_ref)
 
-        df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
+        if st.session_state.base_luck=='test_phoenix_noronha':
+
+            df_pag_fornecedor = df_pag_final[df_pag_final['Servico']==fornecedor_ref].sort_values(by=['Data da Escala']).reset_index(drop=True)
+
+        else:
+
+            df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
         df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
@@ -1191,6 +1203,12 @@ def gerar_payload_envio_geral_para_financeiro(lista_fornecedores, df_pag_final, 
         for item in colunas_valores_df_pag:
 
             df_pag_fornecedor[item] = df_pag_fornecedor[item].apply(lambda x: format_currency(x, 'BRL', locale='pt_BR'))
+
+        if st.session_state.base_luck=='test_phoenix_noronha':
+
+            for item in st.session_state.colunas_numeros_inteiros_df_pag_forn:
+
+                df_pag_fornecedor[item] = df_pag_fornecedor[item].astype(int)
 
         html = definir_html(df_pag_fornecedor)
 
