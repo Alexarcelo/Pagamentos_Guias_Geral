@@ -564,13 +564,13 @@ if gerar_mapa and data_inicial and data_final:
 
 # Gerar Mapas
 
-if 'df_pag_final_forn' in st.session_state or 'df_pag_final_forn_bg_4x4' in st.session_state:
+if 'df_pag_final_historico' in st.session_state:
 
     # Se tiver gerando o mapa normal
 
     if len(tipo_de_mapa)==0:
 
-        df_pag_final_ref = st.session_state.df_pag_final_forn
+        df_pag_final_ref = st.session_state.df_pag_final_historico
 
         colunas_valores_df_pag_ref = st.session_state.colunas_valores_df_pag_forn
 
@@ -661,7 +661,7 @@ if 'df_pag_final_forn' in st.session_state or 'df_pag_final_forn_bg_4x4' in st.s
 
     else:
 
-        df_pag_final_ref = st.session_state.df_pag_final_forn_bg_4x4
+        df_pag_final_ref = st.session_state.df_pag_final_historico
 
         colunas_valores_df_pag_ref = st.session_state.colunas_valores_df_pag_buggy_4x4
 
