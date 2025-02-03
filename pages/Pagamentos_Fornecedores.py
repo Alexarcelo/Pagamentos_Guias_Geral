@@ -1011,7 +1011,7 @@ def gerar_payload_envio_geral(lista_fornecedores, df_pag_final, colunas_valores_
 
         else:
 
-            df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
+            df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
         df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
@@ -1264,9 +1264,9 @@ def gerar_listas_fornecedores_sem_contato(fornecedor):
 
     lista_fornecedores_contato_nulo = []
 
-    if fornecedor in st.session_state.df_contatos['Fornecedor'].unique().tolist():
+    if fornecedor in st.session_state.df_contatos['Fornecedor Motorista'].unique().tolist():
 
-        contato_fornecedor = st.session_state.df_contatos.loc[st.session_state.df_contatos['Fornecedor']==fornecedor, 'Contato'].values[0]
+        contato_fornecedor = st.session_state.df_contatos.loc[st.session_state.df_contatos['Fornecedor Motorista']==fornecedor, 'Contato'].values[0]
 
         if contato_fornecedor=='':
 
@@ -1950,11 +1950,11 @@ if gerar_mapa and data_inicial and data_final:
 
         # Puxando tarifários e tratando colunas de números
     
-        with st.spinner('Puxando configurações, tarifários...'):
+        # with st.spinner('Puxando configurações, tarifários...'):
 
-            puxar_configuracoes()
+        #     puxar_configuracoes()
         
-            puxar_tarifario_fornecedores()
+        #     puxar_tarifario_fornecedores()
 
         with st.spinner('Gerando mapas de pagamentos...'):
 
