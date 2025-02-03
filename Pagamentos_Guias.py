@@ -151,6 +151,9 @@ def puxar_servicos_navio():
 
     st.session_state.df_servicos_navio = st.session_state.df_servicos_navio[['Data da Escala', 'Modo', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 
                                                                              'Apenas Recepcao', 'Barco Carneiros', 'Valor Final']]
+    
+    st.session_state.df_servicos_navio = st.session_state.df_servicos_navio[(st.session_state.df_servicos_navio['Data da Escala']>=st.session_state.data_inicial) & 
+                                                                            (st.session_state.df_servicos_navio['Data da Escala']<=st.session_state.data_final)].reset_index(drop=True)
 
 def puxar_ubers():
 
