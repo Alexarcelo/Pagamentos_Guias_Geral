@@ -1462,6 +1462,11 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
             
                 df_escalas_group['Valor Final'] = df_escalas_group['Valor Final'] + df_escalas_group['Barco Carneiros']
 
+                # Excluindo escalas duplicadas, porque as vezes a logística pra não ter que desescalar e escalar novamente, cria uma nova escala quando na verdade deveria inserir reserve_service
+                # em uma existente
+
+                df_escalas_group = df_escalas_group.drop_duplicates().reset_index(drop=True)
+
                 # Gerando dataframe final
 
                 gerar_df_pag_final_recife(df_escalas_group)
