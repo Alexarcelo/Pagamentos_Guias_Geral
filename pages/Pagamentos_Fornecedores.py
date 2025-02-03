@@ -162,12 +162,23 @@ def adicionar_apoios_em_dataframe(df):
 
         df_apoios = criar_colunas_escala_veiculo_mot_guia(df_apoios)
 
-        df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio', 'Servico', 'Tipo de Servico'])\
-            .agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first', 'Total ADT': 'first', 'Total CHD': 'first'}).reset_index()
+        if 'Total ADT' in df_apoios.columns and 'Total CHD' in df_apoios.columns:
 
-        df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
+            df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio', 'Servico', 'Tipo de Servico'])\
+                .agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first', 'Total ADT': 'first', 'Total CHD': 'first'}).reset_index()
 
-        df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao', 'Total ADT', 'Total CHD']]
+            df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
+
+            df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao', 'Total ADT', 'Total CHD']]
+
+        else:
+
+            df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio', 'Servico', 'Tipo de Servico'])\
+                .agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first'}).reset_index()
+
+            df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
+
+            df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
 
         if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
