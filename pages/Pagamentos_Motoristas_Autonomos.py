@@ -1072,7 +1072,7 @@ if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
         with row2_1[3]:
 
-            enviar_informes_individual_financeiro = st.button(f'Enviar Informes | {guia} p/ Financeiro')
+            enviar_informes_individual_financeiro = st.button(f'Enviar Informes | {motorista} p/ Financeiro')
 
             if enviar_informes_individual_financeiro:
 
