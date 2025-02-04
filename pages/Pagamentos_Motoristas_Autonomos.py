@@ -35,6 +35,8 @@ def gerar_df_phoenix(vw_name, base_luck):
 
 def puxar_dados_phoenix():
 
+    st.session_state.view_phoenix='vw_pagamento_motoristas_aut'
+
     st.session_state.df_escalas = gerar_df_phoenix('vw_payment_guide', st.session_state.base_luck)
 
     st.session_state.df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Status do Servico']!='CANCELADO') & (~pd.isna(st.session_state.df_escalas['Escala']))].reset_index(drop=True)
@@ -792,7 +794,7 @@ if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
     # Puxando dados do Phoenix da 'vw_payment_guide'
 
-    if not 'df_escalas' in st.session_state:
+    if not 'df_escalas' in st.session_state or st.session_state.view_phoenix!='vw_pagamento_motoristas_aut':
 
         with st.spinner('Puxando dados do Phoenix...'):
 
