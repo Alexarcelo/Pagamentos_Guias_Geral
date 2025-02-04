@@ -249,12 +249,12 @@ def verificar_trf_apoio_ent_interestadual(df):
 
     df[['Apenas TRF/APOIO/ENTARDECER', 'Interestadual/Intermunicipal', 'Passeios sem Apoio']] = ''
 
-    df = df[df['Qtd. Serviços']>1]
+    df_avaliacao = df[df['Qtd. Serviços']>1].reset_index()
 
-    mask_ent_aluguel_jpa = (~df['Tipo de Servico'].str.contains('TOUR')) | (df['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ ', 'ALUGUEL DENTRO DE JPA'])) | \
-        ((df['len_Servico']==2) & (df['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ , ALUGUEL DENTRO DE JPA', 'ALUGUEL DENTRO DE JPA, ENTARDECER NA PRAIA DO JACARÉ '])))
+    mask_ent_aluguel_jpa = (~df_avaliacao['Tipo de Servico'].str.contains('TOUR')) | (df_avaliacao['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ ', 'ALUGUEL DENTRO DE JPA'])) | \
+        ((df_avaliacao['len_Servico']==2) & (df_avaliacao['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ , ALUGUEL DENTRO DE JPA', 'ALUGUEL DENTRO DE JPA, ENTARDECER NA PRAIA DO JACARÉ '])))
 
-    df.loc[mask_ent_aluguel_jpa, 'Apenas TRF/APOIO/ENTARDECER'] = 'X'
+    df.loc[df_avaliacao[mask_ent_aluguel_jpa]['index'], 'Apenas TRF/APOIO/ENTARDECER'] = 'X'
 
     df.loc[df['Região'].str.contains('INTERESTADUAL'), 'Interestadual/Intermunicipal'] = 'X'
 
