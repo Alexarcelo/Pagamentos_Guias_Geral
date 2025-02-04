@@ -248,9 +248,11 @@ def filtrando_idiomas_passeios_programacao_espanhol(df_escalas_group):
 
     df_escalas_saindo_de_porto_idioma = df_escalas_group[mask_idioma_programacao].reset_index()
 
-    df_escalas_saindo_de_porto_idioma = pd.merge(df_escalas_saindo_de_porto_idioma, df_programacao_datas, on=['Data da Escala', 'Servico'], how='inner')
+    df_escalas_saindo_de_porto_idioma_programacao = pd.merge(df_escalas_saindo_de_porto_idioma, df_programacao_datas, on=['Data da Escala', 'Servico'], how='inner')
 
-    df_escalas_group.loc[df_escalas_saindo_de_porto_idioma['index'], 'Idioma'] = 'pt-br'
+    lista_indices_idioma_sem_programacao = list(set(df_escalas_saindo_de_porto_idioma['index'])-set(df_escalas_saindo_de_porto_idioma_programacao['index']))
+
+    df_escalas_group.loc[lista_indices_idioma_sem_programacao, 'Idioma'] = 'pt-br'
 
     return df_escalas_group
 
