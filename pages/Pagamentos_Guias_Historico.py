@@ -413,6 +413,22 @@ def enviar_email_individual(contato_guia):
 
     enviar_email_gmail([contato_guia], assunto, st.session_state.html_content, st.session_state.remetente_email, st.session_state.senha_email)
 
+def tratar_colunas_numero_df(df, lista_colunas):
+
+    for coluna in df.columns:
+
+        if not coluna in lista_colunas:
+
+            df[coluna] = (df[coluna].str.replace('.', '', regex=False).str.replace(',', '.', regex=False))
+
+            df[coluna] = pd.to_numeric(df[coluna])
+            
+def puxar_configuracoes():
+
+    puxar_aba_simples(st.session_state.id_gsheet, 'Configurações Guias', 'df_config')
+
+    tratar_colunas_numero_df(st.session_state.df_config, st.session_state.lista_colunas_nao_numericas)
+
 st.set_page_config(layout='wide')
 
 # Título da página
@@ -462,6 +478,8 @@ st.divider()
 if gerar_mapa and data_inicial and data_final:
 
     with st.spinner('Gerando mapas de pagamentos...'):
+
+        puxar_configuracoes()
 
         puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos Guias', 'df_historico_pagamentos')
 
