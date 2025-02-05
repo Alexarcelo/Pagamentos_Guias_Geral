@@ -905,9 +905,9 @@ def selecionar_guia_do_mapa(row2):
 
 def identificar_cnpj_razao_social(guia):
 
-    st.session_state.cnpj = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['CNPJ/CPF Fornecedor Guia'].iloc[0]
+    st.session_state.cnpj = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['CNPJ/CPF Fornecedor Guia'].iloc[-1]
 
-    st.session_state.razao_social = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['Razao Social/Nome Completo Fornecedor Guia'].iloc[0]
+    st.session_state.razao_social = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['Razao Social/Nome Completo Fornecedor Guia'].iloc[-1]
 
 def plotar_mapa_pagamento(guia, row2_1):
 
