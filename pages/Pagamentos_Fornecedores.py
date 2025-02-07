@@ -860,7 +860,13 @@ def plotar_mapa_pagamento(fornecedor, row2_1, df_pag_final):
 
         df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
-    df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
+    if 'df_pag_final_forn_bg_4x4' in st.session_state and len(st.session_state.tipo_de_mapa)>0:
+
+        df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala'], format='%d/%m/%Y').dt.strftime('%d/%m/%Y')
+
+    else:
+
+        df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
     container_dataframe = st.container()
 
@@ -1013,7 +1019,13 @@ def gerar_payload_envio_geral(lista_fornecedores, df_pag_final, colunas_valores_
 
             df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
-        df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
+        if 'df_pag_final_forn_bg_4x4' in st.session_state and len(st.session_state.tipo_de_mapa)>0:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala'], format='%d/%m/%Y').dt.strftime('%d/%m/%Y')
+
+        else:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
         soma_servicos = format_currency(df_pag_fornecedor['Valor Final'].sum(), 'BRL', locale='pt_BR')
 
@@ -1154,7 +1166,13 @@ def gerar_html_mapa_fornecedores_geral(lista_fornecedores, df_pag_final, colunas
 
             df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
-        df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
+        if 'df_pag_final_forn_bg_4x4' in st.session_state and len(st.session_state.tipo_de_mapa)>0:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala'], format='%d/%m/%Y').dt.strftime('%d/%m/%Y')
+
+        else:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
         soma_servicos = format_currency(df_pag_fornecedor['Valor Final'].sum(), 'BRL', locale='pt_BR')
 
@@ -1207,7 +1225,13 @@ def gerar_payload_envio_geral_para_financeiro(lista_fornecedores, df_pag_final, 
 
             df_pag_fornecedor = df_pag_final[df_pag_final['Fornecedor Motorista']==fornecedor_ref].sort_values(by=['Data da Escala', 'Veiculo']).reset_index(drop=True)
 
-        df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
+        if 'df_pag_final_forn_bg_4x4' in st.session_state and len(st.session_state.tipo_de_mapa)>0:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala'], format='%d/%m/%Y').dt.strftime('%d/%m/%Y')
+
+        else:
+
+            df_pag_fornecedor['Data da Escala'] = pd.to_datetime(df_pag_fornecedor['Data da Escala']).dt.strftime('%d/%m/%Y')
 
         soma_servicos = format_currency(df_pag_fornecedor['Valor Final'].sum(), 'BRL', locale='pt_BR')
 
@@ -1680,11 +1704,11 @@ with row1[0]:
 
     if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
-        tipo_de_mapa = container_datas.multiselect('Gerar Mapas de Buggy, 4x4 e Polo', ['Sim'], default=None)
+        tipo_de_mapa = container_datas.multiselect('Gerar Mapas de Buggy, 4x4 e Polo', ['Sim'], default=None, key='tipo_de_mapa')
 
     else:
 
-        tipo_de_mapa = []
+        st.session_state.tipo_de_mapa = []
 
     row1_2 = container_datas.columns(2)
 
