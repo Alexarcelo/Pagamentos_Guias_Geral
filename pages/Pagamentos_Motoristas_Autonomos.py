@@ -251,8 +251,9 @@ def verificar_trf_apoio_ent_interestadual(df):
 
     df_avaliacao = df[df['Qtd. Serviços']>1].reset_index()
 
-    mask_ent_aluguel_jpa = (~df_avaliacao['Tipo de Servico'].str.contains('TOUR')) | (df_avaliacao['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ ', 'ALUGUEL DENTRO DE JPA'])) | \
-        ((df_avaliacao['len_Servico']==2) & (df_avaliacao['Servico'].isin(['ENTARDECER NA PRAIA DO JACARÉ , ALUGUEL DENTRO DE JPA', 'ALUGUEL DENTRO DE JPA, ENTARDECER NA PRAIA DO JACARÉ '])))
+    mask_ent_aluguel_jpa = (~df_avaliacao['Tipo de Servico'].str.contains('TOUR')) | \
+        ((df_avaliacao['Tipo de Servico'].str.contains('OUT|IN|APOIO|TRANSFER')) & (df_avaliacao['Tipo de Servico'].str.contains('TOUR')) & 
+         (df_avaliacao['Servico'].str.contains('ENTARDECER NA PRAIA DO JACARÉ |ALUGUEL DENTRO DE JPA')))
 
     df.loc[df_avaliacao[mask_ent_aluguel_jpa]['index'], 'Apenas TRF/APOIO/ENTARDECER'] = 'X'
 
@@ -309,8 +310,6 @@ def adicionar_apoios_em_dataframe(df):
     df_escalas_com_apoio['Apoio'] = df_escalas_com_apoio['Apoio'].apply(lambda x: x.split(' | ') if ' | ' in x else [x])
 
     df_apoios = df_escalas_com_apoio.explode('Apoio').reset_index(drop=True)
-
-    df_apoios = df_apoios[~df_apoios['Apoio'].str.contains('Guia: null')].reset_index(drop=True)
 
     if len(df_apoios)>0:
 
@@ -864,8 +863,7 @@ if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
             # Selecionando apenas os motoristas autônomos e período solicitados
         
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final) & 
-                                                    (st.session_state.df_escalas['Motorista'].str.contains('MOT AUT', na=False))].reset_index()
+            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index()
             
             # Ajustando Data | Horario Apresentacao de IN pra igualar ao do Voo
             
@@ -891,6 +889,10 @@ if st.session_state.base_luck=='test_phoenix_joao_pessoa':
             # Adicionando Apoios no dataframe de pagamentos
 
             df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+
+            # Filtrando apenas motoristas autônomos
+
+            df_escalas_group = df_escalas_group[df_escalas_group['Motorista'].str.contains('MOT AUT', na=False)].reset_index(drop=True)
 
             # Ajustar data de passeios que terminam na madrugada
         
