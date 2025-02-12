@@ -1750,7 +1750,7 @@ if gerar_mapa and data_inicial and data_final:
 
         with st.spinner('Puxando configurações, tarifários...'):
 
-            if len(tipo_de_mapa)==0:
+            if len(st.session_state.tipo_de_mapa)==0:
 
                 puxar_configuracoes()
 
@@ -1797,7 +1797,7 @@ if gerar_mapa and data_inicial and data_final:
 
             df_escalas_group = identificar_trf_conjugados(df_escalas_group)
 
-            if len(tipo_de_mapa)==0:
+            if len(st.session_state.tipo_de_mapa)==0:
 
                 # Colocando valores em escalas que não sejam com buggy, 4x4 ou Polo
 
@@ -2330,7 +2330,7 @@ if gerar_mapa and data_inicial and data_final:
 
 # Opção de salvar o mapa gerado no Gsheet
 
-if 'df_pag_final_forn_bg_4x4' in st.session_state and len(tipo_de_mapa)>0:
+if 'df_pag_final_forn_bg_4x4' in st.session_state and len(st.session_state.tipo_de_mapa)>0:
 
     with row1_2[1]:
 
@@ -2344,7 +2344,7 @@ if 'df_pag_final_forn_bg_4x4' in st.session_state and len(tipo_de_mapa)>0:
 
             inserir_dataframe_gsheet(df_insercao, st.session_state.id_gsheet, 'Histórico de Pagamentos Buggy e 4x4')
 
-elif 'df_pag_final_forn' in st.session_state and len(tipo_de_mapa)==0:
+elif 'df_pag_final_forn' in st.session_state and len(st.session_state.tipo_de_mapa)==0:
 
     with row1_2[1]:
 
@@ -2364,7 +2364,7 @@ if 'df_pag_final_forn' in st.session_state or 'df_pag_final_forn_bg_4x4' in st.s
 
     # Se tiver gerando o mapa normal
 
-    if len(tipo_de_mapa)==0:
+    if len(st.session_state.tipo_de_mapa)==0:
 
         df_pag_final_ref = st.session_state.df_pag_final_forn
 
