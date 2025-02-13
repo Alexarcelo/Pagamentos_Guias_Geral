@@ -326,11 +326,13 @@ def precificar_apenas_recepcao(df_escalas_group):
 
     df_escalas_group = pd.merge(df_escalas_group, st.session_state.df_apenas_recepcao, on='Escala', how='left')
 
-    df_escalas_group.loc[df_escalas_group['Idioma Apenas Recepção']=='FALSE', ['Apenas Recepcao', 'Valor Final']] = \
-        ['X', st.session_state.df_config[st.session_state.df_config['Configuração']=='Valor Apenas Recepção']['Valor Parâmetro'].iloc[0]]
+    valor_apenas_recepcao = st.session_state.df_config.loc[st.session_state.df_config['Configuração'] == 'Valor Apenas Recepção', 'Valor Parâmetro'].values[0]
 
-    df_escalas_group.loc[df_escalas_group['Idioma Apenas Recepção']=='TRUE', ['Apenas Recepcao', 'Valor Final']] = \
-        ['X', st.session_state.df_config[st.session_state.df_config['Configuração']=='Valor Apenas Recepção Idioma']['Valor Parâmetro'].iloc[0]]
+    df_escalas_group.loc[df_escalas_group['Idioma Apenas Recepção']=='FALSE', ['Apenas Recepcao', 'Valor Final']] = ['X', valor_apenas_recepcao]
+
+    valor_apenas_recepcao_idioma = st.session_state.df_config.loc[st.session_state.df_config['Configuração'] == 'Valor Apenas Recepção Idioma', 'Valor Parâmetro'].values[0]
+
+    df_escalas_group.loc[df_escalas_group['Idioma Apenas Recepção']=='TRUE', ['Apenas Recepcao', 'Valor Final']] = ['X', valor_apenas_recepcao_idioma]
 
     return df_escalas_group
 
