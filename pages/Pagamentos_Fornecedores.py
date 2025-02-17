@@ -2184,7 +2184,7 @@ if gerar_mapa and data_inicial and data_final:
 
             # Agrupando escalas
         
-            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista'])\
+            df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
                 .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Apoio': transformar_em_string, 'Observacao': lambda x: 'NO SHOW' if all(x=='NO SHOW') else ''}).reset_index()
             
             # Adicionando apoios no dataframe
@@ -2229,8 +2229,8 @@ if gerar_mapa and data_inicial and data_final:
                         
             verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Fornecedores', 'Valor Final')
 
-            st.session_state.df_pag_final_forn = df_escalas_group[['Data da Escala', 'Tipo de Servico', 'Servico', 'Fornecedor Motorista', 'Tipo Veiculo', 'Veiculo', 'No Show', 'Serviço Conjugado', 
-                                                                   'Carretinha', 'Valor Final']]
+            st.session_state.df_pag_final_forn = df_escalas_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Fornecedor Motorista', 'Tipo Veiculo', 'Veiculo', 'No Show', 
+                                                                   'Serviço Conjugado', 'Carretinha', 'Valor Final']]
             
     # Base FEN
 
@@ -2616,7 +2616,7 @@ if 'df_pag_final_forn' in st.session_state or 'df_pag_final_forn_bg_4x4' in st.s
 
 # Se tiver fornecedor selecionado, dá a opção de enviar o informe individual
 
-if 'html_content' in st.session_state and fornecedor and data_pagamento:
+if 'df_pag_final_forn' in st.session_state and fornecedor and data_pagamento:
 
     with row2_1[2]:
 
