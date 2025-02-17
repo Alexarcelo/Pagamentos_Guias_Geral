@@ -1575,7 +1575,8 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
 
                 # Gerando dataframe final
 
-                st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Valor Uber', 'Valor Hora Extra', 'Valor Final']]
+                st.session_state.df_pag_final_guias = df_escalas_group[['Data da Escala', 'Escala', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Motoguia', 'Idioma', 'Valor Uber', 'Valor Hora Extra', 
+                                                                        'Valor Final']]
 
         # Base NAT
 
