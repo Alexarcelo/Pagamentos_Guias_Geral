@@ -483,7 +483,7 @@ if gerar_mapa and data_inicial and data_final:
 
         puxar_aba_simples(st.session_state.id_gsheet, 'Histórico de Pagamentos Guias', 'df_historico_pagamentos')
 
-        st.session_state.df_historico_pagamentos['Data da Escala'] = pd.to_datetime(st.session_state.df_historico_pagamentos['Data da Escala'], format='%d/%m/%Y').dt.date
+        st.session_state.df_historico_pagamentos['Data da Escala'] = pd.to_datetime(st.session_state.df_historico_pagamentos['Data da Escala']).dt.date
 
         for coluna in st.session_state.colunas_valores_df_pag:
 
