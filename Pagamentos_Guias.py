@@ -362,15 +362,17 @@ def gerar_df_pag_final_recife(df_escalas_group):
 
 def identificar_trf_ln_diurno_noturno(df_escalas_group):
 
-    mask_ln_noturnos = (df_escalas_group['Servico'].isin([' OUT -  LITORAL NORTE ', 'IN  - LITORAL NORTE '])) & \
-        ((pd.to_datetime(df_escalas_group['Horario Voo']).dt.time >= time(17,0)) | (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time <= time(6,0)))
-    
-    mask_ln_diurnos = (df_escalas_group['Servico'].isin([' OUT -  LITORAL NORTE ', 'IN  - LITORAL NORTE '])) & \
-        ~((pd.to_datetime(df_escalas_group['Horario Voo']).dt.time >= time(17,0)) | (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time <= time(6,0)))
+    if any(df_escalas_group['Servico'].str.contains(' OUT -  LITORAL NORTE |IN  - LITORAL NORTE ')):
 
-    df_escalas_group.loc[mask_ln_noturnos, 'Servico'] = df_escalas_group['Servico'] + ' - NOTURNO'
+        mask_ln_noturnos = (df_escalas_group['Servico'].isin([' OUT -  LITORAL NORTE ', 'IN  - LITORAL NORTE '])) & \
+            ((pd.to_datetime(df_escalas_group['Horario Voo']).dt.time >= time(17,0)) | (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time <= time(6,0)))
+        
+        mask_ln_diurnos = (df_escalas_group['Servico'].isin([' OUT -  LITORAL NORTE ', 'IN  - LITORAL NORTE '])) & \
+            ~((pd.to_datetime(df_escalas_group['Horario Voo']).dt.time >= time(17,0)) | (pd.to_datetime(df_escalas_group['Data | Horario Apresentacao']).dt.time <= time(6,0)))
 
-    df_escalas_group.loc[mask_ln_diurnos, 'Servico'] = df_escalas_group['Servico'] + ' - DIURNO'
+        df_escalas_group.loc[mask_ln_noturnos, 'Servico'] = df_escalas_group['Servico'] + ' - NOTURNO'
+
+        df_escalas_group.loc[mask_ln_diurnos, 'Servico'] = df_escalas_group['Servico'] + ' - DIURNO'
 
     return df_escalas_group
 
