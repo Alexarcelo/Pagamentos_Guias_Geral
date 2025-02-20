@@ -380,19 +380,17 @@ def criar_colunas_escala_veiculo_mot_guia(df):
 
     df['Apoio'] = df['Apoio'].str.replace(r'Escala Auxiliar: | Veículo: | Motorista: | Guia: ', '', regex=True)
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = ''
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = ''
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = df['Apoio'].str.split(',', expand=True)
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = df['Apoio'].str.split(',', expand=True)
     
     return df
 
-def adicionar_apoios_em_dataframe(df):
+def adicionar_apoios_em_dataframe(df, df_group):
 
-    df_escalas_com_apoio = df[(df['Apoio']!='')].reset_index(drop=True)
+    df_apoios = df[pd.notna(df['Apoio'])].reset_index(drop=True)
 
-    df_escalas_com_apoio['Apoio'] = df_escalas_com_apoio['Apoio'].apply(lambda x: x.split(' | ') if ' | ' in x else [x])
-
-    df_apoios = df_escalas_com_apoio.explode('Apoio').reset_index(drop=True)
+    df_apoios = df_apoios.groupby(['Data da Escala', 'Servico', 'Tipo de Servico', 'Apoio']).agg({'Data | Horario Apresentacao': 'min', 'Total ADT': 'sum', 'Total CHD': 'sum'}).reset_index()
 
     df_apoios = df_apoios[~df_apoios['Apoio'].str.contains('Guia: null')].reset_index(drop=True)
 
@@ -400,27 +398,27 @@ def adicionar_apoios_em_dataframe(df):
 
         df_apoios = criar_colunas_escala_veiculo_mot_guia(df_apoios)
 
-        df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']).agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first'}).reset_index()
+        df_apoios = df_apoios[['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
 
-        df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
+        if 'Total ADT | CHD' in df_group.columns:
 
-        df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
+            df_apoios[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Idioma', 'Total ADT | CHD', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, '', 0, time(0,0)]
 
-        if 'Total ADT | CHD' in df.columns:
+        elif 'Idioma' in df_group.columns:
 
-            df_apoios_group[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Idioma', 'Total ADT | CHD', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, '', 0, time(0,0)]
-
-        elif 'Idioma' in df.columns:
-
-            df_apoios_group[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Idioma', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, '', time(0,0)]
+            df_apoios[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Idioma', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, '', time(0,0)]
 
         else:
 
-            df_apoios_group[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, time(0,0)]
+            df_apoios[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Horario Voo']] = ['APOIO', 'TRANSFER', 'REGULAR', None, time(0,0)]
 
-        df = pd.concat([df, df_apoios_group], ignore_index=True)
+        df_final = pd.concat([df_group, df_apoios], ignore_index=True)
 
-    return df
+        return df_final
+        
+    else:
+
+        return df_group
 
 def identificar_motoguias(df):
 
@@ -1535,7 +1533,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
                 # Agrupando escalas
 
                 df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                    .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min', 'Parceiro': transformar_em_string}).reset_index()
+                    .agg({'Idioma': transformar_em_string, 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min', 'Parceiro': transformar_em_string}).reset_index()
                 
                 # Alterando TRF LITORAL NORTE p/ Diurno e Noturno
 
@@ -1543,7 +1541,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
 
                 # Adicionando Apoios no dataframe de pagamentos
 
-                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
                 # Identificando motoguias
 
@@ -1637,7 +1635,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
                 # Agrupando escalas
 
                 df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                    .agg({'Apoio': transformar_em_string,  'Idioma': transformar_em_string, 'Total ADT | CHD': 'sum', 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min'}).reset_index()
+                    .agg({'Idioma': transformar_em_string, 'Total ADT | CHD': 'sum', 'Horario Voo': 'max', 'Data | Horario Apresentacao': 'min'}).reset_index()
                 
                 # Retirando informação da coluna Idioma para TOUR REGULAR com menos de 8 paxs
 
@@ -1653,7 +1651,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
 
                 # Adicionando Apoios no dataframe de pagamentos
 
-                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
                 df_escalas_group['Adicional Passeio Motoguia'] = df_escalas_group['Adicional Passeio Motoguia'].fillna(0)
 
@@ -1724,7 +1722,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
                 # Agrupando escalas
 
                 df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Servico', 'Tipo de Servico', 'Modo'])\
-                    .agg({'Apoio': transformar_em_string,  'Horario Voo': transformar_em_string, 'Data | Horario Apresentacao': 'min', 'Est. Origem': transformar_em_string}).reset_index()
+                    .agg({'Horario Voo': transformar_em_string, 'Data | Horario Apresentacao': 'min', 'Est. Origem': transformar_em_string}).reset_index()
 
                 # Criando colunas com horários de voos mais tarde e mais cedo
 
@@ -1732,7 +1730,7 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
 
                 # Adicionando Apoios no dataframe de pagamentos
 
-                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+                df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
                 # Identificando motoguias
 
