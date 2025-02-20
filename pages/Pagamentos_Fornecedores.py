@@ -181,7 +181,11 @@ def adicionar_apoios_em_dataframe(df, df_group):
 
         df_final = pd.concat([df_group, df_apoios], ignore_index=True)
 
-    return df_final
+        return df_final
+        
+    else:
+
+        return df_group
 
 def map_regiao(servico):
 
