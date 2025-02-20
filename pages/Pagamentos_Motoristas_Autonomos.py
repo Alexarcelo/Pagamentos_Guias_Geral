@@ -297,39 +297,35 @@ def criar_colunas_escala_veiculo_mot_guia(df):
 
     df['Apoio'] = df['Apoio'].str.replace(r'Escala Auxiliar: | Veículo: | Motorista: | Guia: ', '', regex=True)
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = ''
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = ''
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = df['Apoio'].str.split(',', expand=True)
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = df['Apoio'].str.split(',', expand=True)
     
     return df
 
-def adicionar_apoios_em_dataframe(df):
+def adicionar_apoios_em_dataframe(df, df_group):
 
-    df_escalas_com_apoio = df[(df['Apoio']!='')].reset_index(drop=True)
+    df_apoios = df[pd.notna(df['Apoio'])].reset_index(drop=True)
 
-    df_escalas_com_apoio['Apoio'] = df_escalas_com_apoio['Apoio'].apply(lambda x: x.split(' | ') if ' | ' in x else [x])
-
-    df_apoios = df_escalas_com_apoio.explode('Apoio').reset_index(drop=True)
+    df_apoios = df_apoios.groupby(['Data da Escala', 'Apoio']).agg({'Data | Horario Apresentacao': 'min'}).reset_index()
 
     if len(df_apoios)>0:
 
         df_apoios = criar_colunas_escala_veiculo_mot_guia(df_apoios)
 
-        df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']).agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first'}).reset_index()
+        df_apoios = df_apoios[~df_apoios['Motorista'].str.contains('FARIAS|GIULIANO|NETO|JUNIOR')].reset_index(drop=True)
 
-        df_apoios_group = df_apoios_group[~df_apoios_group['Motorista Apoio'].str.contains('FARIAS|GIULIANO|NETO|JUNIOR')].reset_index(drop=True)
-        
-        df_apoios_group['Data | Horario Voo']=df_apoios_group['Data | Horario Apresentacao']
+        df_apoios = df_apoios[['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
 
-        df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
+        df_apoios[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Horario Voo']] = ['APOIO', 'APOIO', 'REGULAR', None, time(0,0)]
 
-        df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
+        df_final = pd.concat([df_group, df_apoios], ignore_index=True)
 
-        df_apoios_group[['Servico', 'Tipo de Servico', 'Modo', 'Apoio', 'Horario Voo']] = ['APOIO', 'APOIO', 'REGULAR', None, time(0,0)]
+        return df_final
+    
+    else:
 
-        df = pd.concat([df, df_apoios_group], ignore_index=True)
-
-    return df
+        return df_group
 
 def definir_html(df_ref):
 
@@ -888,7 +884,7 @@ if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
             # Adicionando Apoios no dataframe de pagamentos
 
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Filtrando apenas motoristas autônomos
 
