@@ -140,10 +140,6 @@ def transformar_em_string(serie_dados):
 
     return ', '.join(list(set(serie_dados.dropna())))
 
-def transformar_apoio_em_string(serie_dados):
-
-    return ' | '.join(list(set(serie_dados.dropna())))
-
 def criar_colunas_escala_veiculo_mot_guia(df):
 
     df['Apoio'] = df['Apoio'].str.replace(r'Escala Auxiliar: | Veículo: | Motorista: | Guia: ', '', regex=True)
