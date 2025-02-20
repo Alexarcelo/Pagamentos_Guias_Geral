@@ -140,64 +140,50 @@ def transformar_em_string(serie_dados):
 
     return ', '.join(list(set(serie_dados.dropna())))
 
+def transformar_apoio_em_string(serie_dados):
+
+    return ' | '.join(list(set(serie_dados.dropna())))
+
 def criar_colunas_escala_veiculo_mot_guia(df):
 
     df['Apoio'] = df['Apoio'].str.replace(r'Escala Auxiliar: | Veículo: | Motorista: | Guia: ', '', regex=True)
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = ''
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = ''
 
-    df[['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio']] = df['Apoio'].str.split(',', expand=True)
+    df[['Escala', 'Veiculo', 'Motorista', 'Guia']] = df['Apoio'].str.split(',', expand=True)
     
     return df
 
-def adicionar_apoios_em_dataframe(df):
+def adicionar_apoios_em_dataframe(df, df_group):
 
-    df_escalas_com_apoio = df[(df['Apoio']!='')].reset_index(drop=True)
+    df_apoios = df[pd.notna(df['Apoio'])].reset_index(drop=True)
 
-    df_escalas_com_apoio['Apoio'] = df_escalas_com_apoio['Apoio'].apply(lambda x: x.split(' | ') if ' | ' in x else [x])
-
-    df_apoios = df_escalas_com_apoio.explode('Apoio').reset_index(drop=True)
+    df_apoios = df_apoios.groupby(['Data da Escala', 'Servico', 'Tipo de Servico', 'Apoio']).agg({'Data | Horario Apresentacao': 'min', 'Total ADT': 'sum', 'Total CHD': 'sum'}).reset_index()
 
     if len(df_apoios)>0:
 
         df_apoios = criar_colunas_escala_veiculo_mot_guia(df_apoios)
 
-        if 'Total ADT' in df_apoios.columns and 'Total CHD' in df_apoios.columns:
-
-            df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio', 'Servico', 'Tipo de Servico'])\
-                .agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first', 'Total ADT': 'first', 'Total CHD': 'first'}).reset_index()
-
-            df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
-
-            df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao', 'Total ADT', 'Total CHD']]
-
-        else:
-
-            df_apoios_group = df_apoios.groupby(['Escala Apoio', 'Veiculo Apoio', 'Motorista Apoio', 'Guia Apoio', 'Servico', 'Tipo de Servico'])\
-                .agg({'Data da Escala': 'first', 'Data | Horario Apresentacao': 'first'}).reset_index()
-
-            df_apoios_group = df_apoios_group.rename(columns={'Veiculo Apoio': 'Veiculo', 'Motorista Apoio': 'Motorista', 'Guia Apoio': 'Guia', 'Escala Apoio': 'Escala'})
-
-            df_apoios_group = df_apoios_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao']]
+        df_apoios = df_apoios[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Veiculo', 'Motorista', 'Guia', 'Data | Horario Apresentacao', 'Total ADT', 'Total CHD']]
 
         if st.session_state.base_luck=='test_phoenix_joao_pessoa':
 
-            df_apoios_group['Servico'] = 'APOIO'
+            df_apoios['Servico'] = 'APOIO'
 
         elif st.session_state.base_luck=='test_phoenix_recife':
 
-            df_apoios_group['Servico'] = df_apoios_group['Servico'].apply(lambda x: 'APOIO - PORTO DE GALINHAS' if '(PORTO DE GALINHAS)' in x or 'SAINDO DE PORTO DE GALINHAS' in x else 
-                                                                          'APOIO - BOA VIAGEM' if '(BOA VIAGEM' in x else x)
+            df_apoios['Servico'] = df_apoios['Servico'].apply(lambda x: 'APOIO - PORTO DE GALINHAS' if '(PORTO DE GALINHAS)' in x or 'SAINDO DE PORTO DE GALINHAS' in x else 
+                                                              'APOIO - BOA VIAGEM' if '(BOA VIAGEM' in x else x)
             
         elif st.session_state.base_luck=='test_phoenix_natal':
 
-            df_apoios_group['Servico Principal'] = df_apoios_group['Servico']
+            df_apoios['Servico Principal'] = df_apoios['Servico']
 
-            df_apoios_group['Servico'] = 'APOIO'
+            df_apoios['Servico'] = 'APOIO'
 
-        df_apoios_group = pd.merge(df_apoios_group, st.session_state.df_veiculos[['Veiculo', 'Tipo Veiculo', 'Fornecedor Motorista']], on='Veiculo', how='left')
+        df_apoios = pd.merge(df_apoios, st.session_state.df_veiculos[['Veiculo', 'Tipo Veiculo', 'Fornecedor Motorista']], on='Veiculo', how='left')
 
-        df = pd.concat([df, df_apoios_group], ignore_index=True)
+        df = pd.concat([df_group, df_apoios], ignore_index=True)
 
     return df
 
@@ -281,7 +267,7 @@ def identificar_trf_conjugados(df):
 
     df_in_out_group = df_in_out.groupby(['Data da Escala', 'Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Servico': lambda x: list(x), 
                                                                             'Escala': 'count', 'Data | Horario Apresentacao': lambda x: list(x), 'Horario Voo': lambda x: list(x), 
-                                                                            'Regiao': lambda x: list(x), 'Tipo Veiculo': 'first'}).reset_index()
+                                                                            'Regiao': lambda x: list(x), 'Tipo Veiculo': 'first', 'Fornecedor Motorista': 'first'}).reset_index()
     
     if st.session_state.base_luck=='test_phoenix_joao_pessoa':
     
@@ -373,7 +359,11 @@ def identificar_trf_conjugados(df):
 
                             df = identificar_alterar_nome_servico_conjugado(row, index, df)
 
-                        elif regiao_out!='Natal' and data_hora_in - data_hora_out < timedelta(hours=3, minutes=40):
+                        elif regiao_out=='Pipa' and data_hora_in - data_hora_out < timedelta(hours=3, minutes=40) and row['Fornecedor Motorista'] in ['DAMIAO PIPA', 'KLEBER LUIZ', 'LUIZ ANTONIO']:
+
+                            df = identificar_alterar_nome_servico_conjugado(row, index, df)
+
+                        elif regiao_out=='Touros' and data_hora_in - data_hora_out < timedelta(hours=3, minutes=40) and row['Fornecedor Motorista'] in ['JUDSON', 'JULIO CESAR', 'ADRIANO TOUROS']:
 
                             df = identificar_alterar_nome_servico_conjugado(row, index, df)
 
@@ -1407,9 +1397,9 @@ def ajustar_apoios_bolero_pipa(df):
 
 def excluir_escalas_duplicadas(df, lista_servicos):
 
-    df_data_fornecedor = df[df['Servico'].isin(lista_servicos)][['Data da Escala', 'Fornecedor Motorista', 'Servico', 'Escala']].drop_duplicates().reset_index(drop=True)
+    df_data_fornecedor = df[df['Servico'].isin(lista_servicos)][['Data da Escala', 'Fornecedor Motorista', 'Veiculo', 'Servico', 'Escala']].drop_duplicates().reset_index(drop=True)
 
-    df_data_fornecedor = df_data_fornecedor.groupby(['Data da Escala', 'Fornecedor Motorista']).agg({'Escala': lambda x: list(x), 'Servico': 'count'}).reset_index()
+    df_data_fornecedor = df_data_fornecedor.groupby(['Data da Escala', 'Fornecedor Motorista', 'Veiculo']).agg({'Escala': lambda x: list(x), 'Servico': 'count'}).reset_index()
 
     df_data_fornecedor = df_data_fornecedor[df_data_fornecedor['Servico']>1]
 
@@ -1675,8 +1665,41 @@ def gerar_coluna_valor_final_mcz(row):
     else:
 
         return None
-    
+
+def soma_se_apoio_nao_none(x):
+
+    return x[df_escalas['Apoio'].notna()].sum()
+
 st.set_page_config(layout='wide')
+
+st.session_state.base_luck = 'test_phoenix_natal'
+
+st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro']
+
+st.session_state.id_gsheet = '1tsaBFwE3KS84r_I5-g3YGP7tTROe1lyuCw_UjtxofYI'
+
+st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentolucknatal"
+
+st.session_state.colunas_valores_df_pag = ['Adicional Passeio Motoguia', 'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']
+
+st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
+
+st.session_state.colunas_valores_df_pag_forn_add = ['Valor ADT', 'Valor CHD', 'Valor Final']
+
+st.session_state.colunas_numeros_inteiros_df_pag_forn_add = ['Total ADT', 'Total CHD']
+
+st.session_state.dict_tp_veic = {'Ônibus': 'Bus', 'Sedan': 'Utilitario', '4X4': 'Utilitario', 'Executivo': 'Utilitario', 'Micrão': 'Micro', 'Executivo Blindado': 'Utilitario', 
+                                    'Monovolume': 'Utilitario'}
+
+st.session_state.dict_tratar_servico_in_out = {'In Natal - Hotéis Parceiros ': 'IN - Natal ', 'IN Touros - Hotéis Parceiros': 'IN - Touros', 'IN Pipa - Hotéis Parceiros ': 'IN - Pipa', 
+                                                'OUT Natal - Hotéis Parceiros ': 'OUT - Natal', 'OUT Pipa - Hotéis Parceiros': 'OUT - Pipa', 'OUT Touros - hotéis Parceiros': 'OUT - Touros'}
+
+st.session_state.dict_conjugados = {'OUT - Pipa': 'Pipa', 'IN - Pipa': 'Pipa', 'OUT - Touros': 'Touros', 'IN - Touros': 'Touros', 'OUT - Natal': 'Natal', 'IN - Natal ': 'Natal', 
+                                    'OUT - Tripulacao': 'Tripulacao', 'IN - Tripulacao': 'Tripulacao', 'OUT - São Miguel Gostoso': 'Sao Miguel', 'IN - São Miguel Gostoso': 'Sao Miguel'}
+
+st.session_state.dict_trf_hotel_conjugado = {'TRF  Pipa/Natal': 1, 'TRF Natal/Pipa ': 2, 'TRF Natal/Touros': 3, 'TRF Touros/Natal': 4, 'TRF Natal/São Miguel': 5, 'TRF São Miguel/Natal': 6}
+
+st.session_state.lista_passeios_apoio_bolero_cunhau = ['Passeio à João Pessoa com Bolero (PIPA)', 'Passeio à Barra do Cunhaú (NAT)', 'Tour à Barra do Cunhaú (PIPA)']
 
 if not 'df_escalas' in st.session_state or st.session_state.view_phoenix!='vw_pagamento_fornecedores':
 
@@ -1998,11 +2021,13 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
         
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista', 'Modo'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Apoio': transformar_em_string, 'Total ADT': 'sum', 'Total CHD': 'sum'}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Total ADT': 'sum', 'Total CHD': 'sum'}).reset_index()
+            
+            
             
             # Adicionando apoios no dataframe
     
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Excluindo veículos da frota da análise
 
