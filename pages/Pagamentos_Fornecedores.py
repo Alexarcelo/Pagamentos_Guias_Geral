@@ -179,9 +179,9 @@ def adicionar_apoios_em_dataframe(df, df_group):
 
         df_apoios = pd.merge(df_apoios, st.session_state.df_veiculos[['Veiculo', 'Tipo Veiculo', 'Fornecedor Motorista']], on='Veiculo', how='left')
 
-        df = pd.concat([df_group, df_apoios], ignore_index=True)
+        df_final = pd.concat([df_group, df_apoios], ignore_index=True)
 
-    return df
+    return df_final
 
 def map_regiao(servico):
 
