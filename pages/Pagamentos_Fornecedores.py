@@ -1801,11 +1801,11 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
 
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'max', 'Total ADT': 'sum', 'Total CHD': 'sum', 'Reserva': transformar_em_string, 'Apoio': transformar_em_string}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'max', 'Total ADT': 'sum', 'Total CHD': 'sum', 'Reserva': transformar_em_string}).reset_index()
             
             # Adicionando apoios no dataframe
 
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Excluindo veículos da frota da análise
 
@@ -1911,8 +1911,7 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
         
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Estabelecimento Destino': transformar_em_string, 'Estabelecimento Origem': transformar_em_string, 
-                      'Apoio': transformar_em_string}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Estabelecimento Destino': transformar_em_string, 'Estabelecimento Origem': transformar_em_string}).reset_index()
 
             # Identificando IN, OUT e TRANSFER feito p/ piedade
     
@@ -1920,7 +1919,7 @@ if gerar_mapa and data_inicial and data_final:
 
             # Adicionando apoios no dataframe
     
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Excluindo veículos da frota da análise
 
@@ -2023,8 +2022,6 @@ if gerar_mapa and data_inicial and data_final:
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista', 'Modo'])\
                 .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Total ADT': 'sum', 'Total CHD': 'sum'}).reset_index()
             
-            
-            
             # Adicionando apoios no dataframe
     
             df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
@@ -2118,11 +2115,11 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
 
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'max', 'Guia': transformar_em_string, 'Apoio': transformar_em_string}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'max', 'Guia': transformar_em_string}).reset_index()
 
             # Adicionando apoios no dataframe
     
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Excluindo veículos da frota da análise
 
@@ -2210,11 +2207,11 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
         
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Apoio': transformar_em_string, 'Observacao': lambda x: 'NO SHOW' if all(x=='NO SHOW') else ''}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Observacao': lambda x: 'NO SHOW' if all(x=='NO SHOW') else ''}).reset_index()
             
             # Adicionando apoios no dataframe
     
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Tratando nomes de tipos de veículos
 
@@ -2325,11 +2322,11 @@ if gerar_mapa and data_inicial and data_final:
             # Agrupando escalas
         
             df_escalas_group = df_escalas.groupby(['Data da Escala', 'Escala', 'Veiculo', 'Tipo Veiculo', 'Servico', 'Tipo de Servico', 'Fornecedor Motorista', 'Motorista'])\
-                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min', 'Apoio': transformar_em_string}).reset_index()
+                .agg({'Horario Voo': 'first', 'Data | Horario Apresentacao': 'min'}).reset_index()
             
             # Adicionando apoios no dataframe
     
-            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas_group)
+            df_escalas_group = adicionar_apoios_em_dataframe(df_escalas, df_escalas_group)
 
             # Tratando nomes de tipos de veículos
 
