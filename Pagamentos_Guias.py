@@ -1112,6 +1112,16 @@ def gerar_payload_envio_geral_para_financeiro(lista_guias):
 
     return lista_htmls, lista_htmls_email
 
+def eliminar_linhas_repetidas_apoio(df_escalas_group):
+    
+    df_apoio = df_escalas_group[df_escalas_group['Servico'] == 'APOIO']
+    
+    df_apoio = df_apoio.drop_duplicates(subset=[col for col in df_apoio.columns if col != 'Escala'])
+    
+    df_escalas_group = pd.concat([df_escalas_group[df_escalas_group['Servico'] != 'APOIO'], df_apoio], ignore_index=True)
+    
+    return df_escalas_group
+
 st.set_page_config(layout='wide')
 
 # Inicializando view_phoenix no session_state
@@ -1695,6 +1705,10 @@ if st.session_state.base_luck in ['test_phoenix_recife', 'test_phoenix_salvador'
                     lista_passeios_ref = conjunto_passeios.split(' & ')
 
                     df_escalas_group = excluir_escalas_duplicadas(df_escalas_group, lista_passeios_ref)
+
+                # Excluindo escalas de APOIO duplicadas
+
+                df_escalas_group = eliminar_linhas_repetidas_apoio(df_escalas_group)
 
                 # Gerando dataframe final
 
