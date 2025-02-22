@@ -47,16 +47,13 @@ def puxar_dados_phoenix():
                                                                     ~(pd.isna(st.session_state.df_escalas_bruto['Status da Reserva'])) & ~(pd.isna(st.session_state.df_escalas_bruto['Escala']))]\
                                                                         .reset_index(drop=True)
     
-    st.session_state.df_cnpj_fornecedores = st.session_state.df_escalas_bruto[~pd.isna(st.session_state.df_escalas_bruto['Fornecedor Motorista'])]\
-        [['Fornecedor Motorista', 'CNPJ/CPF Fornecedor Motorista', 'Razao Social/Nome Completo Fornecedor Motorista', 'Veiculo']].drop_duplicates().reset_index(drop=True)
-    
     st.session_state.df_veiculos = gerar_df_phoenix('vw_veiculos', st.session_state.base_luck)
 
     st.session_state.df_veiculos = st.session_state.df_veiculos.rename(columns={'name': 'Veiculo', 'Fornecedor Veiculo': 'Fornecedor Motorista'})
     
     if st.session_state.base_luck=='test_phoenix_recife':
 
-        st.session_state.df_cnpj_fornecedores['Fornecedor Motorista'] = st.session_state.df_cnpj_fornecedores['Fornecedor Motorista'].replace({'SV VAN NOITE': 'SALVATORE'})
+        st.session_state.df_veiculos['Fornecedor Motorista'] = st.session_state.df_veiculos['Fornecedor Motorista'].replace({'SV VAN NOITE': 'SALVATORE'})
 
     elif st.session_state.base_luck=='test_phoenix_joao_pessoa':
     
@@ -835,10 +832,9 @@ def identificar_cnpj_razao_social(fornecedor):
         
     else:
 
-        st.session_state.cnpj = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Fornecedor Motorista']==fornecedor]['CNPJ/CPF Fornecedor Motorista'].iloc[0]
+        st.session_state.cnpj = st.session_state.df_veiculos[st.session_state.df_veiculos['Fornecedor Motorista']==fornecedor]['cnpj_cpf'].iloc[0]
 
-        st.session_state.razao_social = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Fornecedor Motorista']==fornecedor]\
-            ['Razao Social/Nome Completo Fornecedor Motorista'].iloc[0]
+        st.session_state.razao_social = st.session_state.df_veiculos[st.session_state.df_veiculos['Fornecedor Motorista']==fornecedor]['razao_social_nome'].iloc[0]
 
 def plotar_mapa_pagamento(fornecedor, row2_1, df_pag_final):
 
