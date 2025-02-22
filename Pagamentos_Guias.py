@@ -48,8 +48,7 @@ def puxar_dados_phoenix():
                                                                     ~(pd.isna(st.session_state.df_escalas_bruto['Status da Reserva'])) & ~(pd.isna(st.session_state.df_escalas_bruto['Escala'])) & 
                                                                     ~(pd.isna(st.session_state.df_escalas_bruto['Guia']))].reset_index(drop=True)
     
-    st.session_state.df_cnpj_fornecedores = st.session_state.df_escalas_bruto[~pd.isna(st.session_state.df_escalas_bruto['Guia'])]\
-        [['Guia', 'CNPJ/CPF Fornecedor Guia', 'Razao Social/Nome Completo Fornecedor Guia']].drop_duplicates().reset_index(drop=True)
+    st.session_state.df_cnpj_fornecedores = gerar_df_phoenix('vw_cpf_cnpj_guias', st.session_state.base_luck)
     
 def puxar_aba_simples(id_gsheet, nome_aba, nome_df):
 
@@ -936,9 +935,9 @@ def selecionar_guia_do_mapa(row2):
 
 def identificar_cnpj_razao_social(guia):
 
-    st.session_state.cnpj = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['CNPJ/CPF Fornecedor Guia'].iloc[-1]
+    st.session_state.cnpj = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['cnpj_cpf'].iloc[-1]
 
-    st.session_state.razao_social = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['Razao Social/Nome Completo Fornecedor Guia'].iloc[-1]
+    st.session_state.razao_social = st.session_state.df_cnpj_fornecedores[st.session_state.df_cnpj_fornecedores['Guia']==guia]['razao_social_nome'].iloc[-1]
 
 def plotar_mapa_pagamento(guia, row2_1):
 
