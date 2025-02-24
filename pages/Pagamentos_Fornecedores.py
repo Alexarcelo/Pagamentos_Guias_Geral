@@ -262,7 +262,7 @@ def identificar_trf_conjugados(df):
 
     df_in_out = df[df['Servico'].isin(st.session_state.dict_conjugados)].sort_values(by=['Regiao', 'Data | Horario Apresentacao']).reset_index()
 
-    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Servico': lambda x: list(x), 
+    df_in_out_group = df_in_out.groupby(['Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Servico': lambda x: list(x), 
                                                                             'Escala': 'count', 'Data | Horario Apresentacao': lambda x: list(x), 'Horario Voo': lambda x: list(x), 
                                                                             'Regiao': lambda x: list(x), 'Tipo Veiculo': 'first', 'Fornecedor Motorista': 'first'}).reset_index()
     
@@ -488,7 +488,7 @@ def identificar_trf_htl_conjugados(df):
 
     df_in_out = df_in_out.sort_values(by=['Data da Escala', 'Fornecedor Motorista', 'Ajuste']).reset_index(drop=True)
 
-    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
+    df_in_out_group = df_in_out.groupby(['Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
                                                                                          'Escala': 'count'}).reset_index()
 
     df_in_out_group = df_in_out_group[df_in_out_group['Escala']>1]
@@ -570,7 +570,7 @@ def identificar_trf_in_htl_conjugados(df):
 
     df_in_out = df_in_out.sort_values(by=['Data da Escala', 'Fornecedor Motorista', 'Ajuste']).reset_index(drop=True)
 
-    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
+    df_in_out_group = df_in_out.groupby(['Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
                                                                                          'Escala': 'count'}).reset_index()
     
     df_in_out_group = df_in_out_group[df_in_out_group['Escala']>1]
@@ -625,7 +625,7 @@ def identificar_trf_htl_out_conjugados(df):
 
     df_in_out = df_in_out.sort_values(by=['Data da Escala', 'Fornecedor Motorista', 'Ajuste']).reset_index(drop=True)
 
-    df_in_out_group = df_in_out.groupby(['Data da Escala', 'Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
+    df_in_out_group = df_in_out.groupby(['Fornecedor Motorista']).agg({'index': lambda x: list(x), 'Servico': lambda x: list(x), 'Data | Horario Apresentacao': lambda x: list(x), 
                                                                                          'Escala': 'count'}).reset_index()
     
     df_in_out_group = df_in_out_group[df_in_out_group['Escala']>1]
