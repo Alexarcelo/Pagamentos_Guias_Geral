@@ -262,8 +262,6 @@ def identificar_trf_conjugados(df):
 
     df_in_out = df[df['Servico'].isin(st.session_state.dict_conjugados)].sort_values(by=['Regiao', 'Data | Horario Apresentacao']).reset_index()
 
-    df_in_out[df_in_out['Veiculo']=='CICERO']
-
     df_in_out_group = df_in_out.groupby(['Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Servico': lambda x: list(x), 
                                                                             'Escala': 'count', 'Data | Horario Apresentacao': lambda x: list(x), 'Horario Voo': lambda x: list(x), 
                                                                             'Regiao': lambda x: list(x), 'Tipo Veiculo': 'first', 'Fornecedor Motorista': 'first'}).reset_index()
