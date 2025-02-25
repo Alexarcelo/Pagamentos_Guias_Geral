@@ -238,19 +238,19 @@ def coletar_dados_row(row, coluna_dados, index):
 
     return info_primeiro_trf, info_segundo_trf
 
-def coletar_dados_data_out_in_row(row, coluna_dados_out, coluna_dados_in, index, tipo_primeiro_trf):
+def coletar_dados_data_out_in_row(row, coluna_dados_out, index, tipo_primeiro_trf):
 
     if tipo_primeiro_trf=='OUT':
 
         data_hora_out = pd.to_datetime(row[coluna_dados_out][index-1], unit='s')
 
-        data_hora_in = pd.to_datetime(row[coluna_dados_in][index], format='%H:%M:%S').replace(year=data_hora_out.year, month=data_hora_out.month, day=data_hora_out.day)
+        data_hora_in = pd.to_datetime(row[coluna_dados_out][index-1], unit='s')
 
     else:
 
         data_hora_out = pd.to_datetime(row[coluna_dados_out][index], unit='s')
 
-        data_hora_in = pd.to_datetime(row[coluna_dados_in][index-1], format='%H:%M:%S').replace(year=data_hora_out.year, month=data_hora_out.month, day=data_hora_out.day)
+        data_hora_in = pd.to_datetime(row[coluna_dados_out][index-1], unit='s')
 
     return data_hora_out, data_hora_in
 
@@ -261,6 +261,8 @@ def identificar_trf_conjugados(df):
     df['Serviço Conjugado'] = ''
 
     df_in_out = df[df['Servico'].isin(st.session_state.dict_conjugados)].sort_values(by=['Regiao', 'Data | Horario Apresentacao']).reset_index()
+
+    df_in_out[df_in_out['Veiculo']=='CICERO']
 
     df_in_out_group = df_in_out.groupby(['Veiculo']).agg({'index': lambda x: list(x), 'Tipo de Servico': lambda x: list(x), 'Servico': lambda x: list(x), 
                                                                             'Escala': 'count', 'Data | Horario Apresentacao': lambda x: list(x), 'Horario Voo': lambda x: list(x), 
@@ -280,7 +282,7 @@ def identificar_trf_conjugados(df):
 
                 if tipo_primeiro_trf=='OUT' and tipo_segundo_trf=='IN':
 
-                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                     if data_hora_in - data_hora_out < timedelta(hours=4, minutes=15):
 
@@ -304,7 +306,7 @@ def identificar_trf_conjugados(df):
 
                     if regiao_out==regiao_in:
 
-                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                         if (regiao_out=='Cabo' or regiao_out=='Porto' or regiao_out=='Serrambi') and data_hora_out - data_hora_in < timedelta(hours=3):
 
@@ -336,7 +338,7 @@ def identificar_trf_conjugados(df):
 
                     if tipo_primeiro_trf=='IN' and tipo_segundo_trf=='OUT':
 
-                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                         if regiao_out!='Natal' and data_hora_out - data_hora_in < timedelta(hours=4):
 
@@ -344,7 +346,7 @@ def identificar_trf_conjugados(df):
 
                     elif tipo_primeiro_trf=='OUT' and tipo_segundo_trf=='IN':
 
-                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                         tipo_veiculo = row['Tipo Veiculo']
 
@@ -382,7 +384,7 @@ def identificar_trf_conjugados(df):
 
                     if regiao_out==regiao_in:
 
-                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                         if regiao_out=='Litoral Norte' and data_hora_out - data_hora_in < timedelta(hours=4):
 
@@ -408,7 +410,7 @@ def identificar_trf_conjugados(df):
 
                 if regiao_out==regiao_in:
 
-                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                     if tipo_primeiro_trf=='IN' and tipo_segundo_trf=='OUT':
 
@@ -434,7 +436,7 @@ def identificar_trf_conjugados(df):
                         
                         regiao_out, regiao_in = coletar_dados_row(row, 'Regiao', index)
                         
-                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                        data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
                         
                         if regiao_out=='Makai' and regiao_in=='Aracaju' and data_hora_in - data_hora_out < timedelta(hours=2):
 
@@ -456,7 +458,7 @@ def identificar_trf_conjugados(df):
 
                     regiao_out, regiao_in = coletar_dados_row(row, 'Regiao', index)
 
-                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', 'Horario Voo', index, tipo_primeiro_trf)
+                    data_hora_out, data_hora_in = coletar_dados_data_out_in_row(row, 'Data | Horario Apresentacao', index, tipo_primeiro_trf)
 
                     if (regiao_out=='Barra de Santo Antonio' or regiao_out=='Paripueira' or regiao_out=='Jequia') and data_hora_in - data_hora_out < timedelta(hours=2, minutes=30):
 
