@@ -244,7 +244,7 @@ def coletar_dados_data_out_in_row(row, coluna_dados_out, index, tipo_primeiro_tr
 
         data_hora_out = pd.to_datetime(row[coluna_dados_out][index-1], unit='s')
 
-        data_hora_in = pd.to_datetime(row[coluna_dados_out][index-1], unit='s')
+        data_hora_in = pd.to_datetime(row[coluna_dados_out][index], unit='s')
 
     else:
 
