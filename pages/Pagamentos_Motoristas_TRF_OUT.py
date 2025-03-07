@@ -65,7 +65,40 @@ def criar_output_html(nome_html, html, valor_total):
         
         file.write(html)
 
+def transformar_em_string(serie_dados):
+
+    return ' + '.join(list(set(serie_dados.dropna())))
+
 st.set_page_config(layout='wide')
+
+st.session_state.base_luck = 'test_phoenix_natal'
+
+st.session_state.lista_colunas_nao_numericas = ['Servico', 'Configuração', 'Parâmetro']
+
+st.session_state.id_gsheet = '1tsaBFwE3KS84r_I5-g3YGP7tTROe1lyuCw_UjtxofYI'
+
+st.session_state.id_webhook = "https://conexao.multiatend.com.br/webhook/pagamentolucknatal"
+
+st.session_state.colunas_valores_df_pag = ['Adicional Passeio Motoguia', 'Adicional Motoguia Após 20:00', 'Adicional Diária Motoguia TRF|APOIO', 'Valor Serviço', 'Valor Final']
+
+st.session_state.colunas_valores_df_pag_forn = ['Valor Final']
+
+st.session_state.colunas_valores_df_pag_forn_add = ['Valor ADT', 'Valor CHD', 'Valor Final']
+
+st.session_state.colunas_numeros_inteiros_df_pag_forn_add = ['Total ADT', 'Total CHD']
+
+st.session_state.dict_tp_veic = {'Ônibus': 'Bus', 'Sedan': 'Utilitario', '4X4': 'Utilitario', 'Executivo': 'Utilitario', 'Micrão': 'Micro', 'Executivo Blindado': 'Utilitario', 
+                                    'Monovolume': 'Utilitario'}
+
+st.session_state.dict_tratar_servico_in_out = {'In Natal - Hotéis Parceiros ': 'IN - Natal ', 'IN Touros - Hotéis Parceiros': 'IN - Touros', 'IN Pipa - Hotéis Parceiros ': 'IN - Pipa', 
+                                                'OUT Natal - Hotéis Parceiros ': 'OUT - Natal', 'OUT Pipa - Hotéis Parceiros': 'OUT - Pipa', 'OUT Touros - hotéis Parceiros': 'OUT - Touros'}
+
+st.session_state.dict_conjugados = {'OUT - Pipa': 'Pipa', 'IN - Pipa': 'Pipa', 'OUT - Touros': 'Touros', 'IN - Touros': 'Touros', 'OUT - Natal': 'Natal', 'IN - Natal ': 'Natal', 
+                                    'OUT - Tripulacao': 'Tripulacao', 'IN - Tripulacao': 'Tripulacao', 'OUT - São Miguel Gostoso': 'Sao Miguel', 'IN - São Miguel Gostoso': 'Sao Miguel'}
+
+st.session_state.dict_trf_hotel_conjugado = {'TRF  Pipa/Natal': 1, 'TRF Natal/Pipa ': 2, 'TRF Natal/Touros': 3, 'TRF Touros/Natal': 4, 'TRF Natal/São Miguel': 5, 'TRF São Miguel/Natal': 6}
+
+st.session_state.lista_passeios_apoio_bolero_cunhau = ['Passeio à João Pessoa com Bolero (PIPA)', 'Passeio à Barra do Cunhaú (NAT)', 'Tour à Barra do Cunhaú (PIPA)']
 
 if st.session_state.base_luck=='test_phoenix_natal':
 
@@ -73,7 +106,7 @@ if st.session_state.base_luck=='test_phoenix_natal':
 
         with st.spinner('Puxando dados do Phoenix...'):
 
-            st.session_state.df_escalas = gerar_df_phoenix('vw_payment_guide', st.session_state.base_luck)
+            st.session_state.df_escalas = gerar_df_phoenix('vw_motoristas_out', st.session_state.base_luck)
 
     st.title('Mapa de Pagamento - Motoristas Terceirizados s/ Guia no OUT')
 
@@ -91,7 +124,7 @@ if st.session_state.base_luck=='test_phoenix_natal':
 
         with st.spinner('Puxando dados do Phoenix...'):
 
-            st.session_state.df_escalas = gerar_df_phoenix('vw_payment_guide', st.session_state.base_luck)
+            st.session_state.df_escalas = gerar_df_phoenix('vw_motoristas_out', st.session_state.base_luck)
 
     with row0[0]:
 
@@ -102,11 +135,9 @@ if st.session_state.base_luck=='test_phoenix_natal':
     if data_inicial and data_final:
 
         df_escalas_filtrado = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & 
-                                                        (st.session_state.df_escalas['Data da Escala'] <= data_final) &
-                                                        ~(pd.isna(st.session_state.df_escalas['Escala'])) & 
-                                                        (pd.isna(st.session_state.df_escalas['Guia'])) & 
-                                                        ~(pd.isna(st.session_state.df_escalas['Motorista'])) & 
-                                                        (st.session_state.df_escalas['Tipo de Servico']=='OUT')].reset_index(drop=True)
+                                                          (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
+        
+
         
         lista_motoristas = df_escalas_filtrado['Motorista'].unique().tolist()
 
@@ -118,13 +149,13 @@ if st.session_state.base_luck=='test_phoenix_natal':
 
             st.divider()
 
-            df_escalas_motorista = df_escalas_filtrado[(df_escalas_filtrado['Motorista']==motorista) & (df_escalas_filtrado['Servico']!='OUT - Tripulacao')]\
-                .groupby(['Escala', 'Data Execucao', 'Veiculo', 'Motorista', 'Servico', 'Voo', 'Data Voo', 'Horario Voo'])['Total ADT'].sum().reset_index()
+            df_escalas_motorista = df_escalas_filtrado[(df_escalas_filtrado['Motorista']==motorista)].groupby(['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Servico'], as_index=False)\
+                .agg({'Voo': transformar_em_string})
             
             container_motorista = st.container()
 
-            container_motorista.dataframe(df_escalas_motorista[['Data Execucao', 'Veiculo', 'Motorista', 'Servico', 'Voo', 'Data Voo', 'Horario Voo']]\
-                                        .sort_values(by='Data Execucao'), hide_index=True, use_container_width=True)
+            container_motorista.dataframe(df_escalas_motorista[['Data da Escala', 'Escala', 'Veiculo', 'Motorista', 'Servico', 'Voo']].sort_values(by='Data da Escala'), hide_index=True, 
+                                          use_container_width=True)
             
             nome_html = f'{motorista}.html'
 
