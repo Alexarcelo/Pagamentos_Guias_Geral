@@ -1249,7 +1249,7 @@ if not 'base_luck' in st.session_state:
         
         st.session_state.senha_email = 'acqjmbopixwtjbly'
 
-        st.session_state.dict_tp_veic = {'Carro': 'Utilitario', 'Carro Executivo': 'Utilitario', 'Executivo': 'Utilitario', 'Minivan': 'Van', 'Sedan': 'Utilitario', 'Ônibus': 'Bus'}
+        st.session_state.dict_tp_veic = {'Carro': 'Utilitario', 'Carro Executivo': 'Utilitario', 'Executivo': 'Utilitario', 'Minivan': 'Van', 'Sedan': 'Utilitario', 'Ônibus': 'Bus', 'SUV': 'Utilitario'}
 
         st.session_state.dict_conjugados = {' OUT -  LITORAL NORTE ': 'Litoral Norte', 'BAIXIO IN ': 'Baixio', 'BAIXIO OUT ': 'Baixio', 'IN  - LITORAL NORTE ': 'Litoral Norte'}
 
