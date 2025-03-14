@@ -1567,6 +1567,8 @@ def tratar_tipos_veiculos_spin_cobalt_passeio(df):
 
         df.loc[df['Veiculo'].isin(st.session_state.df_config[st.session_state.df_config['Configuração']==f'Tipo Veículo {item}']['Parâmetro']), 'Tipo Veiculo'] = item
 
+    df.loc[df['Fornecedor Motorista']=='LOCALIZA', 'Tipo Veiculo'] = 'Passeio'
+
     return df
 
 def excluir_escalas_out_in_frances_sao_miguel(df, lista_servicos):
@@ -2140,6 +2142,8 @@ if gerar_mapa and data_inicial and data_final:
             # Verificando se todos os serviços estão na lista de serviços do tarifário
                         
             verificar_tarifarios(df_escalas_group, st.session_state.id_gsheet, 'Tarifário Fornecedores', 'Valor Final')
+
+            df_escalas_group['Reaproveitamento'] = df_escalas_group['Reaproveitamento'].fillna('')
 
             st.session_state.df_pag_final_forn = df_escalas_group[['Data da Escala', 'Tipo de Servico', 'Servico', 'Fornecedor Motorista', 'Tipo Veiculo', 'Veiculo', 'Serviço Conjugado', 
                                                                    'Reaproveitamento', 'No Show', 'Valor Final']]
