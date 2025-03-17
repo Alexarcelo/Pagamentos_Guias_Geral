@@ -91,6 +91,12 @@ def tratar_colunas_numero_df(df, lista_colunas):
 
             df[coluna] = pd.to_numeric(df[coluna])
 
+def tratar_colunas_data_df(df, lista_colunas):
+
+    for coluna in lista_colunas:
+
+        df[coluna] = pd.to_datetime(df[coluna], format='%d/%m/%Y').dt.date
+
 def puxar_configuracoes():
 
     puxar_aba_simples(st.session_state.id_gsheet, 'Configurações Fornecedores', 'df_config')
@@ -132,6 +138,14 @@ def puxar_controle_no_show():
     puxar_aba_simples(st.session_state.id_gsheet, 'Controle No Show', 'df_no_show')
 
     tratar_colunas_numero_df(st.session_state.df_no_show, st.session_state.lista_colunas_nao_numericas)
+
+def puxar_taxa_deslocamento():
+
+    puxar_aba_simples(st.session_state.id_gsheet, 'Taxa de Deslocamento', 'df_taxa_deslocamento')
+
+    tratar_colunas_numero_df(st.session_state.df_taxa_deslocamento, ['Data da Escala', 'Fornecedor Motorista'])
+
+    tratar_colunas_data_df(st.session_state.df_taxa_deslocamento, ['Data da Escala'])
 
 def transformar_em_string(serie_dados):
 
@@ -441,6 +455,8 @@ def identificar_trf_conjugados(df):
                             df = identificar_alterar_nome_servico_conjugado(row, index, df)
 
     elif st.session_state.base_luck=='test_phoenix_maceio':
+
+        df_in_out_group = df_in_out_group[~df_in_out_group['Fornecedor Motorista'].isin(['EBER', 'LUCIANO', 'RONDYNELLE', 'BRUNO DAWIS'])].reset_index(drop=True)
 
         df_in_out_group = df_in_out_group[df_in_out_group['Tipo de Servico'].apply(filtro_tipo_servico_out_in)]
 
@@ -1602,7 +1618,7 @@ def excluir_escalas_out_in_frances_sao_miguel(df, lista_servicos):
 
 def identificar_reaproveitamentos(df):
 
-    df_data_veiculo = df[(df['Tipo de Servico'].isin(['OUT', 'IN'])) & (~df['Fornecedor Motorista'].isin(['VALTUR', 'MACIEL']))].reset_index()
+    df_data_veiculo = df[(df['Tipo de Servico'].isin(['OUT', 'IN'])) & (~df['Fornecedor Motorista'].isin(['VALTUR', 'MACIEL', 'EBER', 'LUCIANO', 'RONDYNELLE', 'BRUNO DAWIS']))].reset_index()
 
     df_data_veiculo['n_servicos'] = df_data_veiculo['Serviço Conjugado'].apply(lambda x: 0.5 if x =='X' else 1)
 
@@ -2056,7 +2072,7 @@ if gerar_mapa and data_inicial and data_final:
 
         # Puxando tarifários e tratando colunas de números
     
-        with st.spinner('Puxando configurações, tarifários, no shows...'):
+        with st.spinner('Puxando configurações, tarifários, no shows, taxas de deslocamento...'):
 
             puxar_configuracoes()
         
@@ -2064,11 +2080,14 @@ if gerar_mapa and data_inicial and data_final:
 
             puxar_controle_no_show()
 
+            puxar_taxa_deslocamento()
+
         with st.spinner('Gerando mapas de pagamentos...'):
 
             # Filtrando período solicitado pelo usuário
         
-            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
+            df_escalas = st.session_state.df_escalas[(st.session_state.df_escalas['Data da Escala'] >= data_inicial) & 
+                                                     (st.session_state.df_escalas['Data da Escala'] <= data_final)].reset_index(drop=True)
 
             # Transformando Data | Horario Apresentacao dos INs como Data | Horario Voo
         
@@ -2145,7 +2164,12 @@ if gerar_mapa and data_inicial and data_final:
 
             df_escalas_group['Reaproveitamento'] = df_escalas_group['Reaproveitamento'].fillna('')
 
-            st.session_state.df_pag_final_forn = df_escalas_group[['Data da Escala', 'Tipo de Servico', 'Servico', 'Fornecedor Motorista', 'Tipo Veiculo', 'Veiculo', 'Serviço Conjugado', 
+            st.session_state.df_taxa_deslocamento[['Escala', 'Servico', 'Veiculo', 'Tipo Veiculo', 'Tipo de Servico', 'Serviço Conjugado', 'Reaproveitamento', 'No Show']] = \
+                ['RO-AAAA-0001', 'TAXA DE DESLOCAMENTO', 'NAO INFORMADO', 'NAO INFORMADO', 'DESLOCAMENTO', '', '', '']
+
+            df_escalas_group = pd.concat([df_escalas_group, st.session_state.df_taxa_deslocamento], ignore_index=True)
+
+            st.session_state.df_pag_final_forn = df_escalas_group[['Data da Escala', 'Escala', 'Tipo de Servico', 'Servico', 'Fornecedor Motorista', 'Tipo Veiculo', 'Veiculo', 'Serviço Conjugado', 
                                                                    'Reaproveitamento', 'No Show', 'Valor Final']]
 
     # Base SSA
