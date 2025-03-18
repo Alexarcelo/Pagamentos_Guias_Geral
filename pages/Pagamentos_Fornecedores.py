@@ -916,7 +916,31 @@ def definir_html(df_ref):
 
 def criar_output_html(nome_html, html, fornecedor, soma_servicos):
 
-    if st.session_state.base_luck=='test_phoenix_noronha':
+    if st.session_state.base_luck == 'test_phoenix_salvador':
+
+        with open(nome_html, "w", encoding="utf-8") as file:
+
+            file.write(f'<p style="font-size:30px; text-align: left;">Olá,</p>')
+
+            file.write(f'<p style="font-size:30px; text-align: left;">Segue abaixo o seu mapa de pagamento referente aos serviços prestados entre {st.session_state.data_inicial.strftime("%d/%m/%Y")} e {st.session_state.data_final.strftime("%d/%m/%Y")}</p>')
+
+            file.write(f'<p style="font-size:30px; text-align: left;">CPF / CNPJ: {st.session_state.cnpj}</p>')
+
+            file.write(f'<p style="font-size:30px; text-align: left;">Razão Social / Nome Completo: {st.session_state.razao_social}</p><br><br>')
+
+            file.write(f'<p style="font-size:40px; text-align: left;">Detalhamento dos serviços:</p>')
+
+            file.write(html)
+
+            file.write(f'<br><br><p style="font-size:30px; text-align: left;">O valor total dos serviços é {soma_servicos}</p>')
+
+            file.write(f'<p style="font-size:30px; text-align: left;">Data de Pagamento: {st.session_state.data_pagamento.strftime("%d/%m/%Y")}</p>')
+
+            file.write(f'<br><br><p style="font-size:30px; text-align: left;">Pedimos, por gentileza, que analise as informações e, caso esteja tudo correto, nos envie a nota fiscal correspondente para que possamos dar continuidade ao processo de pagamento.</p>')
+
+            file.write(f'<p style="font-size:30px; text-align: left;">Agradecemos desde já pela atenção e ficamos à disposição para qualquer dúvida.</p>')
+
+    elif st.session_state.base_luck=='test_phoenix_noronha':
 
         with open(nome_html, "w", encoding="utf-8") as file:
 
