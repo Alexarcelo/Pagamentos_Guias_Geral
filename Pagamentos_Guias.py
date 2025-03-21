@@ -642,7 +642,7 @@ def ajustar_pag_giuliano_junior_neto(df):
 
         valor_ajuste = row['Valor Parâmetro']
 
-        mask_motoguia = (df['Guia']==motoguia) & (df['Motoguia']=='X') & (df['Valor Final']<valor_ajuste)
+        mask_motoguia = (df['Guia']==motoguia) & (df['Motoguia']=='X') & (df['Valor Final']<valor_ajuste) & (df['Servico']!='APOIO')
 
         df.loc[mask_motoguia, 'Valor Final'] = valor_ajuste
     
